@@ -1,0 +1,178 @@
+openapi: 3.0.0
+info:
+  title: openapi
+  version: '1.0'
+servers:
+  - url: 'http://localhost:4211'
+paths:
+  '/users/{userId}':
+    parameters:
+      - $ref: '#/components/parameters/userId'
+    get:
+      summary: Get User Info by User ID
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                example:
+                  value:
+                    id: 0
+                    name: getuser
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+        '400':
+          description: Bad Request
+        '404':
+          description: User Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+      tags:
+        - user
+    delete:
+      summary: Delete User
+      operationId: delete-users-userId
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      tags:
+        - user
+    put:
+      summary: Update User Information
+      operationId: put-users-userId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            examples:
+              example:
+                value:
+                  name: putuser
+  /users:
+    get:
+      summary: Get all users
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+              examples:
+                example:
+                  value:
+                    - id: 0
+                      name: name1
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 1
+                      name: name2
+                      created_at: '2019-08-25T14:15:22Z'
+                      updated_at: '2019-08-25T14:15:22Z'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: get-users
+      description: ''
+    post:
+      summary: ''
+      operationId: post-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                example:
+                  value:
+                    id: 0
+                    name: postuser
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            examples:
+              example:
+                value:
+                  name: postuser
+      tags:
+        - user
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      x-examples:
+        example:
+          id: 42
+          name: nop
+          created_at: '2021-01-01T12:42:42Z'
+          updated_at: '2042-01-01T12:42:42Z'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+          readOnly: true
+        name:
+          type: string
+          minLength: 1
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+        - id
+        - name
+        - created_at
+        - updated_at
+  requestBodies: {}
+  responses: {}
+  parameters:
+    userId:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: integer

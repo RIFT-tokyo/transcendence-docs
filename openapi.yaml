@@ -56,14 +56,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-            application/xml:
-              schema:
-                type: object
-                properties: {}
-            multipart/form-data:
-              schema:
-                type: object
-                properties: {}
         '400':
           description: Bad Request
         '500':

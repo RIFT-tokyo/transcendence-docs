@@ -5,9 +5,96 @@ info:
 servers:
   - url: 'http://localhost:4211'
 paths:
-  '/users/{userId}':
+  /users:
+    get:
+      summary: Get all users
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponseUser'
+              examples:
+                example:
+                  value:
+                    - id: 1
+                      username: inu
+                      display_name: 犬
+                      profile_image: 'http://example.com'
+                      status: online
+                      status_message: I'm dog
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 2
+                      username: saru
+                      display_name: 猿
+                      profile_image: 'http://example.com'
+                      status: offline
+                      status_message: I'm monkey
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 3
+                      username: kiji
+                      display_name: 雉
+                      profile_image: 'http://example.com'
+                      status: game
+                      status_message: I'm pheasant
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: get-users
+      description: ''
+    post:
+      summary: ''
+      operationId: post-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseUser'
+              examples:
+                example:
+                  value:
+                    id: 1
+                    username: taro
+                    display_name: 太郎
+                    profile_image: 'http://example.com'
+                    status: online
+                    status_message: ほげほげ
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestUser'
+            examples:
+              example:
+                value:
+                  name: postuser
+      tags:
+        - user
+  '/users/{userID}':
     parameters:
-      - $ref: '#/components/parameters/userId'
+      - name: userID
+        in: path
+        required: true
+        schema:
+          type: integer
     get:
       summary: Get User Info by User ID
       responses:
@@ -21,7 +108,11 @@ paths:
                 example:
                   value:
                     id: 1
-                    name: getuser
+                    username: taro
+                    display_name: 太郎
+                    profile_image: 'http://example.com'
+                    status: online
+                    status_message: ほげほげ
                     created_at: '2019-08-24T14:15:22Z'
                     updated_at: '2019-08-24T14:15:22Z'
         '400':
@@ -60,7 +151,11 @@ paths:
                 example:
                   value:
                     id: 1
-                    name: putuser
+                    username: taro
+                    display_name: 太郎
+                    profile_image: 'http://example.com'
+                    status: online
+                    status_message: ほげほげ
                     created_at: '2019-08-24T14:15:22Z'
                     updated_at: '2019-08-24T14:15:22Z'
         '400':
@@ -78,11 +173,91 @@ paths:
               example:
                 value:
                   name: putuser
-  /users:
+  '/users/{username}':
+    parameters:
+      - name: username
+        in: path
+        schema:
+          type: string
+        description: Username
     get:
-      summary: Get all users
-      tags:
-        - user
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseUser'
+              examples:
+                example:
+                  value:
+                    id: 1
+                    username: taro
+                    display_name: 太郎
+                    profile_image: 'http://example.com'
+                    status: online
+                    status_message: ほげほげ
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: get-users-username
+      description: ''
+    put:
+      summary: ''
+      operationId: put-users-username
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseUser'
+              examples:
+                example:
+                  value:
+                    id: 1
+                    username: taro
+                    display_name: 太郎
+                    profile_image: 'http://example.com'
+                    status: online
+                    status_message: ほげほげ
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestUser'
+    delete:
+      summary: ''
+      operationId: delete-users-username
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      description: ''
+  '/users/{userID}/friends':
+    parameters:
+      - name: userID
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Your GET endpoint
+      tags: []
       responses:
         '200':
           description: OK
@@ -95,77 +270,129 @@ paths:
               examples:
                 example:
                   value:
-                    - id: 1
-                      name: name1
+                    - id: 2
+                      username: inu
+                      display_name: 犬
+                      profile_image: 'http://example.com'
+                      status: online
+                      status_message: I'm dog
                       created_at: '2019-08-24T14:15:22Z'
                       updated_at: '2019-08-24T14:15:22Z'
-                    - id: 2
-                      name: name2
-                      created_at: '2019-08-25T14:15:22Z'
-                      updated_at: '2019-08-25T14:15:22Z'
-        '400':
-          description: Bad Request
-        '500':
-          description: Internal Server Error
-      operationId: get-users
-      description: ''
-    post:
-      summary: ''
-      operationId: post-users
+                    - id: 3
+                      username: saru
+                      display_name: 猿
+                      profile_image: 'http://example.com'
+                      status: offline
+                      status_message: I'm monkey
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 4
+                      username: kiji
+                      display_name: 雉
+                      profile_image: 'http://example.com'
+                      status: game
+                      status_message: I'm pheasant
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+      operationId: get-users-userId-friends
+  '/users/{username}/friends':
+    parameters:
+      - $ref: '#/components/parameters/username'
+    get:
+      summary: Your GET endpoint
+      tags: []
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseUser'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponseUser'
               examples:
                 example:
                   value:
-                    id: 1
-                    name: postuser
-                    created_at: '2019-08-24T14:15:22Z'
-                    updated_at: '2019-08-24T14:15:22Z'
-        '400':
-          description: Bad Request
-        '500':
-          description: Internal Server Error
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RequestUser'
-            examples:
-              example:
-                value:
-                  name: postuser
-      tags:
-        - user
+                    - id: 2
+                      username: inu
+                      display_name: 犬
+                      profile_image: 'http://example.com'
+                      status: online
+                      status_message: I'm dog
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 3
+                      username: saru
+                      display_name: 猿
+                      profile_image: 'http://example.com'
+                      status: offline
+                      status_message: I'm monkey
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 4
+                      username: kiji
+                      display_name: 雉
+                      profile_image: 'http://example.com'
+                      status: game
+                      status_message: I'm pheasant
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+      operationId: get-users-userId-friends
 components:
   schemas:
     RequestUser:
       title: RequestUser
       type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-      required:
-        - name
       x-examples:
         example:
-          name: username
+          username: bunjiro
+          display_name: 文次郎
+          status_message: Don't Panic!
+      properties:
+        username:
+          type: string
+          minLength: 1
+        display_name:
+          type: string
+        profile_image:
+          type: string
+          format: binary
+        status_message:
+          type: string
     ResponseUser:
       title: ResponseUser
       type: object
+      x-examples:
+        example:
+          id: 42
+          username: nop
+          display_name: のっぷ
+          profile_image: 'localost:4211/users/nop/profile.jpg'
+          status: online
+          status_message: May the force be with you.
+          created_at: '2021-01-01T12:42:42Z'
+          updated_at: '2042-01-01T12:42:42Z'
       properties:
         id:
           type: integer
           description: Unique identifier for the given user.
           minimum: 1
-        name:
+        username:
           type: string
           minLength: 1
+        display_name:
+          type: string
+        profile_image:
+          type: string
+          format: uri
+        status:
+          type: string
+          enum:
+            - online
+            - offline
+            - game
+        status_message:
+          type: string
         created_at:
           type: string
           format: date-time
@@ -174,21 +401,25 @@ components:
           format: date-time
       required:
         - id
-        - name
+        - username
+        - display_name
+        - profile_image
+        - status
+        - status_message
         - created_at
         - updated_at
-      x-examples:
-        example:
-          id: 42
-          name: nop
-          created_at: '2021-01-01T12:42:42Z'
-          updated_at: '2042-01-01T12:42:42Z'
   requestBodies: {}
   responses: {}
   parameters:
     userId:
-      name: userId
+      name: userID
       in: path
       required: true
       schema:
         type: integer
+    username:
+      name: username
+      in: path
+      schema:
+        type: string
+      description: Username

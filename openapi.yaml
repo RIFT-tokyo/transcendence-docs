@@ -53,7 +53,7 @@ paths:
       operationId: get-users
       description: ''
     post:
-      summary: ''
+      summary: Create new user
       operationId: post-users
       responses:
         '200':
@@ -120,11 +120,11 @@ paths:
         - user
   '/users/{userID}':
     parameters:
-      - name: userID
+      - schema:
+          type: string
+        name: userID
         in: path
         required: true
-        schema:
-          type: integer
     get:
       summary: Get User Info by User ID
       responses:
@@ -211,8 +211,9 @@ paths:
           type: string
         description: Username
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Get User Info by username
+      tags:
+        - user
       responses:
         '200':
           description: OK
@@ -238,7 +239,7 @@ paths:
       operationId: get-users-username
       description: ''
     put:
-      summary: ''
+      summary: Update User Information
       operationId: put-users-username
       responses:
         '200':
@@ -267,8 +268,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RequestUser'
+      tags:
+        - user
     delete:
-      summary: ''
+      summary: Delete User
       operationId: delete-users-username
       responses:
         '200':
@@ -278,6 +281,8 @@ paths:
         '500':
           description: Internal Server Error
       description: ''
+      tags:
+        - user
   '/users/{userID}/friends':
     parameters:
       - name: userID
@@ -286,8 +291,9 @@ paths:
         schema:
           type: integer
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Get Friend List of Specified User
+      tags:
+        - user
       responses:
         '200':
           description: OK
@@ -329,8 +335,9 @@ paths:
     parameters:
       - $ref: '#/components/parameters/username'
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Get Friend List of Specified User
+      tags:
+        - user
       responses:
         '200':
           description: OK
@@ -368,6 +375,7 @@ paths:
                       created_at: '2019-08-24T14:15:22Z'
                       updated_at: '2019-08-24T14:15:22Z'
       operationId: get-users-userId-friends
+      description: ''
 components:
   schemas:
     RequestUser:

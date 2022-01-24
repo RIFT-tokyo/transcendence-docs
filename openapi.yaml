@@ -120,11 +120,7 @@ paths:
         - user
   '/users/by/{username}':
     parameters:
-      - name: username
-        in: path
-        schema:
-          type: string
-        description: Username
+      - $ref: '#/components/parameters/username'
     get:
       summary: Get User Info by username
       tags:
@@ -155,11 +151,7 @@ paths:
       description: ''
   '/users/{userID}':
     parameters:
-      - schema:
-          type: string
-        name: userID
-        in: path
-        required: true
+      - $ref: '#/components/parameters/userId'
     get:
       summary: Get User Info by User ID
       responses:
@@ -240,11 +232,7 @@ paths:
                   name: putuser
   '/users/{userID}/friends':
     parameters:
-      - name: userID
-        in: path
-        required: true
-        schema:
-          type: integer
+      - $ref: '#/components/parameters/userId'
     get:
       summary: Get Friend List of Specified User
       tags:

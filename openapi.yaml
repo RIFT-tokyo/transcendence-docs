@@ -307,7 +307,6 @@ components:
           type: string
         profile_image:
           type: string
-          format: binary
         status_message:
           type: string
     ResponseUser:

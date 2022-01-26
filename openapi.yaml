@@ -48,8 +48,16 @@ paths:
                       updated_at: '2019-08-24T14:15:22Z'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       operationId: get-users
       description: ''
     post:
@@ -75,8 +83,27 @@ paths:
                     updated_at: '2019-08-24T14:15:22Z'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    status_code: 409
+                    message: username is already used
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       requestBody:
         content:
           application/json:
@@ -85,7 +112,9 @@ paths:
             examples:
               example:
                 value:
-                  name: postuser
+                  username: inu
+                  display_name: 犬
+                  status_message: bow-wow!
       tags:
         - user
   /me:
@@ -112,8 +141,16 @@ paths:
                     updated_at: '2019-08-24T14:15:22Z'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       operationId: get-me
       description: Retrieve the information of the user with the matching user ID.
       tags:
@@ -143,10 +180,18 @@ paths:
                     status_message: ほげほげ
                     created_at: '2019-08-24T14:15:22Z'
                     updated_at: '2019-08-24T14:15:22Z'
-        '400':
-          description: Bad Request
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       operationId: get-users-username
       description: ''
   '/users/{userID}':
@@ -156,7 +201,7 @@ paths:
       summary: Get User Info by User ID
       responses:
         '200':
-          description: User Found
+          description: OK
           content:
             application/json:
               schema:
@@ -172,12 +217,18 @@ paths:
                     status_message: ほげほげ
                     created_at: '2019-08-24T14:15:22Z'
                     updated_at: '2019-08-24T14:15:22Z'
-        '400':
-          description: Bad Request
         '404':
-          description: User Not Found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       operationId: get-users-userId
       description: Retrieve the information of the user with the matching user ID.
       tags:
@@ -190,8 +241,22 @@ paths:
           description: OK
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
         - user
     put:
@@ -217,8 +282,28 @@ paths:
                     updated_at: '2019-08-24T14:15:22Z'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
         - user
       requestBody:
@@ -273,6 +358,18 @@ paths:
                       status_message: I'm pheasant
                       created_at: '2019-08-24T14:15:22Z'
                       updated_at: '2019-08-24T14:15:22Z'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       operationId: get-users-userId-friends
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -346,6 +443,14 @@ components:
         - status_message
         - created_at
         - updated_at
+    Error:
+      title: Error
+      type: object
+      properties:
+        status_code:
+          type: integer
+        mesasge:
+          type: string
   requestBodies: {}
   responses: {}
   parameters:

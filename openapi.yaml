@@ -314,7 +314,9 @@ paths:
             examples:
               example:
                 value:
-                  name: putuser
+                  username: inu
+                  display_name: 犬
+                  status_message: bow-wow!
   '/users/{userID}/friends':
     parameters:
       - $ref: '#/components/parameters/userId'

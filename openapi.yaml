@@ -84,6 +84,11 @@ paths:
                     status_message: ほげほげ
                     created_at: '2019-08-24T14:15:22Z'
                     updated_at: '2019-08-24T14:15:22Z'
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+              description: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
         '400':
           description: Bad Request
           content:
@@ -397,15 +402,15 @@ paths:
       summary: Your GET endpoint
       tags: []
       operationId: get-auth-login
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Location
-          description: login url of 42
+      parameters: []
       responses:
         '307':
           description: Temporary Redirect
+          headers:
+            Location:
+              schema:
+                type: string
+              description: login url of 42
       description: |-
         The first client request by 42 for oauth2.0.
         After this, you will be redirected to 42's login page.
@@ -414,7 +419,18 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '307':
+          description: Temporary Redirect
+          headers:
+            Location:
+              schema:
+                type: string
+              description: to the home
+            Set-Cookie:
+              schema:
+                type: string
+              description: like SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
       operationId: get-auth-callback
       description: |-
         After allowing transcendence on screen 42, you will be redirected here.

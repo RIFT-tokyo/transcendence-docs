@@ -2,6 +2,7 @@ openapi: 3.0.0
 info:
   title: openapi
   version: '1.0'
+  description: ''
 servers:
   - url: 'http://localhost:4211'
 paths:
@@ -60,6 +61,8 @@ paths:
                 $ref: '#/components/schemas/Error'
       operationId: get-users
       description: ''
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
     post:
       summary: Create new user
       operationId: post-users
@@ -117,6 +120,8 @@ paths:
                   status_message: bow-wow!
       tags:
         - user
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
   /me:
     parameters: []
     get:
@@ -155,6 +160,8 @@ paths:
       description: Retrieve the information of the user with the matching user ID.
       tags:
         - user
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
   '/users/by/{username}':
     parameters:
       - $ref: '#/components/parameters/username'
@@ -194,6 +201,8 @@ paths:
                 $ref: '#/components/schemas/Error'
       operationId: get-users-username
       description: ''
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
   '/users/{userID}':
     parameters:
       - $ref: '#/components/parameters/userId'
@@ -233,6 +242,8 @@ paths:
       description: Retrieve the information of the user with the matching user ID.
       tags:
         - user
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
     delete:
       summary: Delete User
       operationId: delete-users-userId
@@ -259,6 +270,8 @@ paths:
                 $ref: '#/components/schemas/Error'
       tags:
         - user
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
     put:
       summary: Update User Information
       operationId: put-users-userId
@@ -317,6 +330,8 @@ paths:
                   username: inu
                   display_name: 犬
                   status_message: bow-wow!
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
   '/users/{userID}/friends':
     parameters:
       - $ref: '#/components/parameters/userId'
@@ -376,6 +391,39 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/sessionId'
+  /auth/login/42:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      operationId: get-auth-login
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Location
+          description: login url of 42
+      responses:
+        '307':
+          description: Temporary Redirect
+      description: |-
+        The first client request by 42 for oauth2.0.
+        After this, you will be redirected to 42's login page.
+    parameters: []
+  /auth/callback/42:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-auth-callback
+      description: |-
+        After allowing transcendence on screen 42, you will be redirected here.
+        This is where the server-side will register or retrieve the user's information.
+      parameters:
+        - schema:
+            type: string
+          in: query
+    parameters: []
 components:
   schemas:
     RequestUser:
@@ -484,4 +532,11 @@ components:
       schema:
         type: integer
         minimum: 0
+    sessionId:
+      name: sessionId
+      in: cookie
+      required: true
+      schema:
+        type: string
   examples: {}
+  securitySchemes: {}

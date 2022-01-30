@@ -317,13 +317,11 @@ paths:
                   username: inu
                   display_name: 犬
                   status_message: bow-wow!
-  '/users/{userID}/friends':
+  '/users/{userID}/followers':
     parameters:
       - $ref: '#/components/parameters/userId'
     get:
-      summary: Get Friend List of Specified User
-      tags:
-        - user
+      summary: List Followers of a user
       responses:
         '200':
           description: OK
@@ -376,6 +374,70 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+      tags:
+        - follow
+      description: ''
+  '/users/{userID}/following':
+    parameters:
+      - $ref: '#/components/parameters/userId'
+    get:
+      summary: List the people a user follows
+      tags:
+        - follow
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponseUser'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-users-userID-following
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+  '/users/following/{userID}':
+    parameters:
+      - $ref: '#/components/parameters/userId'
+    put:
+      summary: Follow a user
+      operationId: put-users-following-userID
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+      tags:
+        - follow
+    delete:
+      summary: Unfollow a user
+      operationId: delete-users-following-userID
+      responses:
+        '204':
+          description: No Content
+        '405':
+          description: Method Not Allowed
+      tags:
+        - follow
+  '/users/{userID}/following/{targetUserID}':
+    parameters:
+      - $ref: '#/components/parameters/userId'
+      - $ref: '#/components/parameters/targetUserID'
+    get:
+      summary: Check if a user follows another user
+      tags:
+        - follow
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+      operationId: get-users-userID-following-targetUserID
 components:
   schemas:
     RequestUser:
@@ -430,6 +492,12 @@ components:
             - game
         status_message:
           type: string
+        followers:
+          type: integer
+          minimum: 0
+        following:
+          type: integer
+          minimum: 0
         created_at:
           type: string
           format: date-time
@@ -443,6 +511,8 @@ components:
         - profile_image
         - status
         - status_message
+        - followers
+        - following
         - created_at
         - updated_at
     Error:
@@ -484,4 +554,11 @@ components:
       schema:
         type: integer
         minimum: 0
+    targetUserID:
+      name: targetUserID
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
   examples: {}

@@ -61,8 +61,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       operationId: get-users
       description: ''
-      parameters:
-        - $ref: '#/components/parameters/sessionId'
+      parameters: []
     post:
       summary: Create new user
       operationId: post-users
@@ -88,7 +87,8 @@ paths:
             Set-Cookie:
               schema:
                 type: string
-              description: like SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
+                example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
+              description: set sessionId
         '400':
           description: Bad Request
           content:
@@ -125,8 +125,7 @@ paths:
                   status_message: bow-wow!
       tags:
         - user
-      parameters:
-        - $ref: '#/components/parameters/sessionId'
+      parameters: []
   /me:
     parameters: []
     get:
@@ -165,8 +164,7 @@ paths:
       description: Retrieve the information of the user with the matching user ID.
       tags:
         - user
-      parameters:
-        - $ref: '#/components/parameters/sessionId'
+      parameters: []
   '/users/by/{username}':
     parameters:
       - $ref: '#/components/parameters/username'
@@ -206,8 +204,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       operationId: get-users-username
       description: ''
-      parameters:
-        - $ref: '#/components/parameters/sessionId'
+      parameters: []
   '/users/{userID}':
     parameters:
       - $ref: '#/components/parameters/userId'
@@ -247,8 +244,7 @@ paths:
       description: Retrieve the information of the user with the matching user ID.
       tags:
         - user
-      parameters:
-        - $ref: '#/components/parameters/sessionId'
+      parameters: []
     delete:
       summary: Delete User
       operationId: delete-users-userId
@@ -275,8 +271,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       tags:
         - user
-      parameters:
-        - $ref: '#/components/parameters/sessionId'
+      parameters: []
     put:
       summary: Update User Information
       operationId: put-users-userId
@@ -335,8 +330,7 @@ paths:
                   username: inu
                   display_name: 犬
                   status_message: bow-wow!
-      parameters:
-        - $ref: '#/components/parameters/sessionId'
+      parameters: []
   '/users/{userID}/friends':
     parameters:
       - $ref: '#/components/parameters/userId'
@@ -396,7 +390,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/sessionId'
   /auth/login/42:
     get:
       summary: Your GET endpoint
@@ -415,6 +408,7 @@ paths:
       description: |-
         The first client request by 42 for oauth2.0.
         After this, you will be redirected to 42's login page.
+      security: []
     parameters: []
   /auth/callback/42:
     get:
@@ -432,12 +426,14 @@ paths:
             Set-Cookie:
               schema:
                 type: string
-              description: like SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
+                example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
+              description: set sessionId
       operationId: get-auth-callback
       description: |-
         After allowing transcendence on screen 42, you will be redirected here.
         This is where the server-side will register or retrieve the user's information.
       parameters: []
+      security: []
     parameters: []
 components:
   schemas:
@@ -547,11 +543,12 @@ components:
       schema:
         type: integer
         minimum: 0
-    sessionId:
-      name: sessionId
-      in: cookie
-      required: true
-      schema:
-        type: string
   examples: {}
-  securitySchemes: {}
+  securitySchemes:
+    sessionAuth:
+      name: sessionId
+      type: apiKey
+      in: cookie
+      description: sessionId needed in cookie
+security:
+  - sessionAuth: []

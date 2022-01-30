@@ -61,6 +61,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       operationId: get-users
       description: ''
+      parameters: []
     post:
       summary: Create new user
       operationId: post-users
@@ -124,7 +125,9 @@ paths:
                   status_message: bow-wow!
       tags:
         - user
+      parameters: []
   /me:
+    parameters: []
     get:
       summary: Get User Info by User ID
       responses:
@@ -161,6 +164,7 @@ paths:
       description: Retrieve the information of the user with the matching user ID.
       tags:
         - user
+      parameters: []
   '/users/by/{username}':
     parameters:
       - $ref: '#/components/parameters/username'
@@ -200,6 +204,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       operationId: get-users-username
       description: ''
+      parameters: []
   '/users/{userID}':
     parameters:
       - $ref: '#/components/parameters/userId'
@@ -239,6 +244,7 @@ paths:
       description: Retrieve the information of the user with the matching user ID.
       tags:
         - user
+      parameters: []
     delete:
       summary: Delete User
       operationId: delete-users-userId
@@ -265,6 +271,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       tags:
         - user
+      parameters: []
     put:
       summary: Update User Information
       operationId: put-users-userId
@@ -323,6 +330,7 @@ paths:
                   username: inu
                   display_name: 犬
                   status_message: bow-wow!
+      parameters: []
   '/users/{userID}/friends':
     parameters:
       - $ref: '#/components/parameters/userId'
@@ -382,12 +390,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-  /auth/login/42:
+  '/auth/login/{provider}':
     get:
       summary: Your GET endpoint
       tags:
         - auth
       operationId: get-auth-login
+      parameters: []
       responses:
         '307':
           description: Temporary Redirect
@@ -402,9 +411,15 @@ paths:
                 example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
               description: set sessionId in cookie
       description: |-
-        The first client request by 42 for oauth2.0.
-        After this, you will be redirected to 42's login page.
+        The first client request by provider for oauth2.0.
+        After this, you will be redirected to provider's login page.
       security: []
+    parameters:
+      - schema:
+          type: string
+        name: provider
+        in: path
+        required: true
 components:
   schemas:
     RequestUser:

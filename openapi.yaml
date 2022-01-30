@@ -88,7 +88,7 @@ paths:
             Set-Cookie:
               schema:
                 type: string
-              description: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
+              description: like SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
         '400':
           description: Bad Request
           content:
@@ -400,7 +400,8 @@ paths:
   /auth/login/42:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - auth
       operationId: get-auth-login
       parameters: []
       responses:
@@ -418,7 +419,8 @@ paths:
   /auth/callback/42:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - auth
       responses:
         '307':
           description: Temporary Redirect

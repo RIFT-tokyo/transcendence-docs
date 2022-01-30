@@ -395,33 +395,15 @@ paths:
             Location:
               schema:
                 type: string
-              description: login url of 42
-      description: |-
-        The first client request by 42 for oauth2.0.
-        After this, you will be redirected to 42's login page.
-      security: []
-  /auth/callback/42:
-    get:
-      summary: Your GET endpoint
-      tags:
-        - auth
-      responses:
-        '307':
-          description: Temporary Redirect
-          headers:
-            Location:
-              schema:
-                type: string
               description: to the home
             Set-Cookie:
               schema:
                 type: string
                 example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
-              description: set sessionId
-      operationId: get-auth-callback
+              description: set sessionId in cookie
       description: |-
-        After allowing transcendence on screen 42, you will be redirected here.
-        This is where the server-side will register or retrieve the user's information.
+        The first client request by 42 for oauth2.0.
+        After this, you will be redirected to 42's login page.
       security: []
 components:
   schemas:

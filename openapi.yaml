@@ -1,13 +1,15 @@
 openapi: 3.0.0
 info:
-  title: openapi
+  title: transcendence API
   version: '1.0'
+  description: ''
 servers:
   - url: 'http://localhost:4211'
+    description: Local
 paths:
   /users:
     get:
-      summary: Get all users
+      summary: List users
       tags:
         - user
       responses:
@@ -120,7 +122,7 @@ paths:
   /me:
     parameters: []
     get:
-      summary: Get User Info by User ID
+      summary: Get the authenticated user
       responses:
         '200':
           description: User Found
@@ -159,7 +161,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/username'
     get:
-      summary: Get User Info by username
+      summary: Get a user by username
       tags:
         - user
       responses:
@@ -198,7 +200,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/userId'
     get:
-      summary: Get User Info by User ID
+      summary: Get a user
       responses:
         '200':
           description: OK
@@ -234,7 +236,7 @@ paths:
       tags:
         - user
     delete:
-      summary: Delete User
+      summary: Delete a user
       operationId: delete-users-userId
       responses:
         '200':
@@ -260,7 +262,7 @@ paths:
       tags:
         - user
     put:
-      summary: Update User Information
+      summary: Update a user
       operationId: put-users-userId
       responses:
         '200':

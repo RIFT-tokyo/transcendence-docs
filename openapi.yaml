@@ -437,10 +437,7 @@ paths:
       description: |-
         After allowing transcendence on screen 42, you will be redirected here.
         This is where the server-side will register or retrieve the user's information.
-      parameters:
-        - schema:
-            type: string
-          in: query
+      parameters: []
     parameters: []
 components:
   schemas:

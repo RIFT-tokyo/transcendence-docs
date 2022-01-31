@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: transcendence API
   version: '1.0'
-  description: ''
+  description: The transendence API enables programmatic access to transcendence.
 servers:
   - url: 'http://localhost:4211'
     description: Local
@@ -381,7 +381,7 @@ paths:
         - $ref: '#/components/parameters/offset'
       tags:
         - follow
-      description: ''
+      description: Lists the people following the specified user.
   '/users/{userID}/following':
     parameters:
       - $ref: '#/components/parameters/userId'
@@ -398,6 +398,36 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ResponseUser'
+              examples:
+                example:
+                  value:
+                    - id: 1
+                      username: inu
+                      display_name: 犬
+                      status: online
+                      status_message: わん
+                      followers: 1
+                      following: 3
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 2
+                      username: saru
+                      display_name: 猿
+                      status: offline
+                      status_message: うきー
+                      followers: 2
+                      following: 1
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 3
+                      username: kiji
+                      display_name: きじ
+                      status: game
+                      status_message: きー
+                      followers: 2
+                      following: 10
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
         '404':
           description: Not Found
           content:
@@ -414,7 +444,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-      description: ''
+      description: Lists the people who the specified user follows.
   '/users/following/{userID}':
     parameters:
       - $ref: '#/components/parameters/userId'

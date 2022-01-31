@@ -242,8 +242,8 @@ paths:
       summary: Delete a user
       operationId: delete-users-userId
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
         '400':
           description: Bad Request
           content:
@@ -400,12 +400,21 @@ paths:
                   $ref: '#/components/schemas/ResponseUser'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       operationId: get-users-userID-following
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+      description: ''
   '/users/following/{userID}':
     parameters:
       - $ref: '#/components/parameters/userId'
@@ -417,6 +426,16 @@ paths:
           description: No Content
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
         - follow
     delete:
@@ -425,8 +444,18 @@ paths:
       responses:
         '204':
           description: No Content
-        '405':
-          description: Method Not Allowed
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       tags:
         - follow
   '/users/{userID}/following/{targetUserID}':
@@ -442,6 +471,16 @@ paths:
           description: No Content
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       operationId: get-users-userID-following-targetUserID
 components:
   schemas:

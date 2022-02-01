@@ -347,12 +347,7 @@ paths:
             Location:
               schema:
                 type: string
-              description: browser confirm of 42
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
+              description: redirect to 42's confirm browser
         '500':
           description: Internal Server Error
       description: |-

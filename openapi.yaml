@@ -1,13 +1,15 @@
 openapi: 3.0.0
 info:
-  title: openapi
+  title: transcendence API
   version: '1.0'
+  description: The transendence API enables programmatic access to transcendence.
 servers:
   - url: 'http://localhost:4211'
+    description: Local
 paths:
   /users:
     get:
-      summary: Get all users
+      summary: List users
       tags:
         - user
       responses:
@@ -60,6 +62,9 @@ paths:
                 $ref: '#/components/schemas/Error'
       operationId: get-users
       description: ''
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
     post:
       summary: Create new user
       operationId: post-users
@@ -120,7 +125,7 @@ paths:
   /me:
     parameters: []
     get:
-      summary: Get User Info by User ID
+      summary: Get the authenticated user
       responses:
         '200':
           description: User Found
@@ -159,7 +164,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/username'
     get:
-      summary: Get User Info by username
+      summary: Get a user by username
       tags:
         - user
       responses:
@@ -198,7 +203,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/userId'
     get:
-      summary: Get User Info by User ID
+      summary: Get a user
       responses:
         '200':
           description: OK
@@ -234,11 +239,11 @@ paths:
       tags:
         - user
     delete:
-      summary: Delete User
+      summary: Delete a user
       operationId: delete-users-userId
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
         '400':
           description: Bad Request
           content:
@@ -260,7 +265,7 @@ paths:
       tags:
         - user
     put:
-      summary: Update User Information
+      summary: Update a user
       operationId: put-users-userId
       responses:
         '200':
@@ -317,13 +322,11 @@ paths:
                   username: inu
                   display_name: 犬
                   status_message: bow-wow!
-  '/users/{userID}/friends':
+  '/users/{userID}/followers':
     parameters:
       - $ref: '#/components/parameters/userId'
     get:
-      summary: Get Friend List of Specified User
-      tags:
-        - user
+      summary: List Followers of a user
       responses:
         '200':
           description: OK
@@ -376,6 +379,139 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
+      tags:
+        - follow
+      description: Lists the people following the specified user.
+  '/users/{userID}/following':
+    parameters:
+      - $ref: '#/components/parameters/userId'
+    get:
+      summary: List the people a user follows
+      tags:
+        - follow
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponseUser'
+              examples:
+                example:
+                  value:
+                    - id: 1
+                      username: inu
+                      display_name: 犬
+                      status: online
+                      status_message: わん
+                      followers: 1
+                      following: 3
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 2
+                      username: saru
+                      display_name: 猿
+                      status: offline
+                      status_message: うきー
+                      followers: 2
+                      following: 1
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 3
+                      username: kiji
+                      display_name: きじ
+                      status: game
+                      status_message: きー
+                      followers: 2
+                      following: 10
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: get-users-userID-following
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      description: Lists the people who the specified user follows.
+  '/users/following/{userID}':
+    parameters:
+      - $ref: '#/components/parameters/userId'
+    put:
+      summary: Follow a user
+      operationId: put-users-following-userID
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - follow
+    delete:
+      summary: Unfollow a user
+      operationId: delete-users-following-userID
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - follow
+  '/users/{userID}/following/{targetUserID}':
+    parameters:
+      - $ref: '#/components/parameters/userId'
+      - $ref: '#/components/parameters/targetUserID'
+    get:
+      summary: Check if a user follows another user
+      tags:
+        - follow
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: get-users-userID-following-targetUserID
 components:
   schemas:
     RequestUser:
@@ -430,6 +566,12 @@ components:
             - game
         status_message:
           type: string
+        followers:
+          type: integer
+          minimum: 0
+        following:
+          type: integer
+          minimum: 0
         created_at:
           type: string
           format: date-time
@@ -443,6 +585,8 @@ components:
         - profile_image
         - status
         - status_message
+        - followers
+        - following
         - created_at
         - updated_at
     Error:
@@ -484,4 +628,11 @@ components:
       schema:
         type: integer
         minimum: 0
+    targetUserID:
+      name: targetUserID
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
   examples: {}

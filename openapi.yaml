@@ -333,9 +333,9 @@ paths:
                   username: inu
                   display_name: 犬
                   status_message: bow-wow!
-  '/auth/login':
+  /auth/login:
     get:
-      summary: Your GET endpoint
+      summary: Oauth login request
       tags:
         - auth
       operationId: get-auth-login
@@ -355,7 +355,7 @@ paths:
       security: []
     parameters: []
     post:
-      summary: ''
+      summary: username and password login
       operationId: post-auth-login
       responses:
         '307':
@@ -377,30 +377,17 @@ paths:
         content:
           application/json:
             schema:
-              description: ''
-              type: object
-              properties:
-                username:
-                  type: string
-                  minLength: 1
-                password:
-                  type: string
-                  minLength: 1
-              required:
-                - username
-                - password
-              x-examples:
-                example-1:
-                  username: syudai
-                  password: magiimine
+              $ref: '#/components/schemas/SimpleLoginUser'
             examples:
               example-1:
                 value:
                   username: syudai
                   password: password
-  '/auth/callback':
+      tags:
+        - auth
+  /auth/callback:
     get:
-      summary: Your GET endpoint
+      summary: Oauth callback
       tags:
         - auth
       responses:
@@ -696,6 +683,20 @@ components:
           type: integer
         mesasge:
           type: string
+    SimpleLoginUser:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          username: syudai
+          password: abc
+      properties:
+        username:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
   requestBodies: {}
   responses: {}
   parameters:

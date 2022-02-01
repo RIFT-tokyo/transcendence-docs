@@ -390,13 +390,14 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-  '/auth/login/{provider}':
+  /auth/login:
     get:
       summary: Your GET endpoint
       tags:
         - auth
       operationId: get-auth-login
-      parameters: []
+      parameters:
+        - $ref: '#/components/parameters/provider'
       responses:
         '307':
           description: Temporary Redirect
@@ -404,12 +405,37 @@ paths:
             Location:
               schema:
                 type: string
-              description: login url of 42
+              description: browser confirm of 42
       description: |-
         The first client request by 42 for oauth2.0.
-        After this, you will be redirected to 42's login page.
+        After this, you will be redirected to 42's confirm browser.
       security: []
-  /auth/callback/42:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-auth-login
+      responses:
+        '307':
+          description: Temporary Redirect
+          headers:
+            Location:
+              schema:
+                type: string
+              description: to the home
+            Set-Cookie:
+              schema:
+                type: string
+                example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
+              description: set sessionId
+      description: username and password auth without using auth.
+      parameters: []
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+  /auth/callback:
     get:
       summary: Your GET endpoint
       tags:
@@ -432,12 +458,7 @@ paths:
         After allowing transcendence on screen 42, you will be redirected here.
         This is where the server-side will register or retrieve the user's information.
       security: []
-    parameters:
-      - schema:
-          type: string
-        name: provider
-        in: path
-        required: true
+    parameters: []
 components:
   schemas:
     RequestUser:
@@ -546,6 +567,12 @@ components:
       schema:
         type: integer
         minimum: 0
+    provider:
+      name: provider
+      in: query
+      required: true
+      schema:
+        type: string
   examples: {}
   securitySchemes:
     sessionAuth:

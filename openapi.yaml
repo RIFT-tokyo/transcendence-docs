@@ -434,7 +434,27 @@ paths:
         content:
           application/json:
             schema:
+              description: ''
               type: object
+              properties:
+                username:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+              required:
+                - username
+                - password
+              x-examples:
+                example-1:
+                  username: syudai
+                  password: magiimine
+            examples:
+              example-1:
+                value:
+                  username: syudai
+                  password: password
   /auth/callback:
     get:
       summary: Your GET endpoint

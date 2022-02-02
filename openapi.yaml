@@ -392,6 +392,10 @@ paths:
               description: redirect to 42's confirm browser
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       description: |-
         The first client request by 42 for oauth2.0.
         After this, you will be redirected to 42's confirm browser.
@@ -415,8 +419,16 @@ paths:
               description: set sessionId
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       description: username and password auth without using auth.
       parameters: []
       security: []
@@ -467,6 +479,10 @@ paths:
               description: set sessionId
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       operationId: get-auth-callback
       description: |-
         After allowing transcendence on screen 42, you will be redirected here.

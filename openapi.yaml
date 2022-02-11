@@ -7,6 +7,164 @@ servers:
   - url: 'http://localhost:4211'
     description: Local
 paths:
+  /auth/login:
+    get:
+      summary: Oauth login request
+      tags:
+        - auth
+      operationId: get-auth-login
+      parameters: []
+      responses:
+        '307':
+          description: Temporary Redirect
+          headers:
+            Location:
+              schema:
+                type: string
+              description: redirect to 42's confirm browser
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: |-
+        The first client request by 42 for oauth2.0.
+        After this, you will be redirected to 42's confirm browser.
+      security: []
+    parameters: []
+    post:
+      summary: username and password login
+      operationId: post-auth-login
+      responses:
+        '307':
+          description: Temporary Redirect
+          headers:
+            Location:
+              schema:
+                type: string
+              description: to the home
+            Set-Cookie:
+              schema:
+                type: string
+                example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
+              description: set sessionId
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: username and password auth without using auth.
+      parameters: []
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                username:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+              required:
+                - username
+                - password
+              x-examples:
+                example-1:
+                  username: syudai
+                  password: password
+            examples:
+              example-1:
+                value:
+                  username: syudai
+                  password: password
+      tags:
+        - auth
+  /auth/callback:
+    get:
+      summary: Oauth callback
+      tags:
+        - auth
+      responses:
+        '307':
+          description: Temporary Redirect
+          headers:
+            Location:
+              schema:
+                type: string
+              description: to the home
+            Set-Cookie:
+              schema:
+                type: string
+                example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
+              description: set sessionId
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: get-auth-callback
+      description: |-
+        After allowing transcendence on screen 42, you will be redirected here.
+        This is where the server-side will register or retrieve the user's information.
+      security: []
+  /me:
+    parameters: []
+    get:
+      summary: Get the authenticated user
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseUser'
+              examples:
+                example:
+                  value:
+                    id: 1
+                    username: taro
+                    display_name: 太郎
+                    profile_image: 'http://example.com'
+                    status: online
+                    status_message: ほげほげ
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: get-me
+      description: Retrieve the information of the user with the matching user ID.
+      tags:
+        - user
+      parameters: []
   /users:
     get:
       summary: List users
@@ -138,51 +296,6 @@ paths:
                   username: inu
                   display_name: 犬
                   status_message: bow-wow!
-      tags:
-        - user
-      parameters: []
-  /me:
-    parameters: []
-    get:
-      summary: Get the authenticated user
-      responses:
-        '200':
-          description: User Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseUser'
-              examples:
-                example:
-                  value:
-                    id: 1
-                    username: taro
-                    display_name: 太郎
-                    profile_image: 'http://example.com'
-                    status: online
-                    status_message: ほげほげ
-                    created_at: '2019-08-24T14:15:22Z'
-                    updated_at: '2019-08-24T14:15:22Z'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      operationId: get-me
-      description: Retrieve the information of the user with the matching user ID.
       tags:
         - user
       parameters: []
@@ -375,50 +488,23 @@ paths:
                   username: inu
                   display_name: 犬
                   status_message: bow-wow!
-  /auth/login:
-    get:
-      summary: Oauth login request
-      tags:
-        - auth
-      operationId: get-auth-login
-      parameters: []
-      responses:
-        '307':
-          description: Temporary Redirect
-          headers:
-            Location:
-              schema:
-                type: string
-              description: redirect to 42's confirm browser
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      description: |-
-        The first client request by 42 for oauth2.0.
-        After this, you will be redirected to 42's confirm browser.
-      security: []
-    parameters: []
+  '/users/{userID}/images':
+    parameters:
+      - $ref: '#/components/parameters/userId'
     post:
-      summary: username and password login
-      operationId: post-auth-login
+      summary: Upload a user profile image
+      operationId: post-users-userID-images
       responses:
-        '307':
-          description: Temporary Redirect
-          headers:
-            Location:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
               schema:
-                type: string
-              description: to the home
-            Set-Cookie:
-              schema:
-                type: string
-                example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
-              description: set sessionId
-        '400':
-          description: Bad Request
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
           content:
             application/json:
               schema:
@@ -429,65 +515,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      description: username and password auth without using auth.
-      parameters: []
-      security: []
+      description: ''
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              description: ''
-              type: object
-              properties:
-                username:
-                  type: string
-                  minLength: 1
-                password:
-                  type: string
-                  minLength: 1
-              required:
-                - username
-                - password
-              x-examples:
-                example-1:
-                  username: syudai
-                  password: password
-            examples:
-              example-1:
-                value:
-                  username: syudai
-                  password: password
+              type: string
+              format: binary
       tags:
-        - auth
-  /auth/callback:
-    get:
-      summary: Oauth callback
-      tags:
-        - auth
+        - user
+    delete:
+      summary: Delete a user profile image
+      operationId: delete-users-userID-images
       responses:
-        '307':
-          description: Temporary Redirect
-          headers:
-            Location:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
               schema:
-                type: string
-              description: to the home
-            Set-Cookie:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
               schema:
-                type: string
-                example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
-              description: set sessionId
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      operationId: get-auth-callback
-      description: |-
-        After allowing transcendence on screen 42, you will be redirected here.
-        This is where the server-side will register or retrieve the user's information.
-      security: []
+      description: ''
+      tags:
+        - user
   '/users/{userID}/followers':
     parameters:
       - $ref: '#/components/parameters/userId'
@@ -652,6 +715,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       tags:
         - follow
+      description: ''
     delete:
       summary: Unfollow a user
       operationId: delete-users-following-userID
@@ -728,8 +792,6 @@ components:
           type: string
           minLength: 1
         display_name:
-          type: string
-        profile_image:
           type: string
         status_message:
           type: string

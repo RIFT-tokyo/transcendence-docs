@@ -733,6 +733,10 @@ components:
           type: string
         status_message:
           type: string
+        password:
+          type: string
+        ft_id:
+          type: integer
     ResponseUser:
       title: ResponseUser
       type: object
@@ -790,6 +794,7 @@ components:
         - following
         - created_at
         - updated_at
+      description: ''
     Error:
       title: Error
       type: object

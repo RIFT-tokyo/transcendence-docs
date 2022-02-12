@@ -750,6 +750,7 @@ components:
           status_message: May the force be with you.
           created_at: '2021-01-01T12:42:42Z'
           updated_at: '2042-01-01T12:42:42Z'
+      description: ''
       properties:
         id:
           type: integer
@@ -783,6 +784,8 @@ components:
         updated_at:
           type: string
           format: date-time
+        ft_id:
+          type: integer
       required:
         - id
         - username
@@ -794,7 +797,6 @@ components:
         - following
         - created_at
         - updated_at
-      description: ''
     Error:
       title: Error
       type: object

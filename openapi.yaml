@@ -509,6 +509,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '413':
+          description: Request Entity Too Large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '415':
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
           content:

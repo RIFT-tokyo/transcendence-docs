@@ -4,7 +4,7 @@ info:
   version: '1.0'
   description: The transendence API enables programmatic access to transcendence.
 servers:
-  - url: 'http://localhost:4211'
+  - url: 'http://localhost:4211/api'
     description: Local
 paths:
   /auth/login:

@@ -860,8 +860,6 @@ components:
         - profile_image
         - status
         - status_message
-        - followers
-        - following
         - created_at
         - updated_at
     Error:

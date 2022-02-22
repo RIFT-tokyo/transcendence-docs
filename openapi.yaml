@@ -130,7 +130,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseUser'
+                $ref: '#/components/schemas/User'
               examples:
                 example:
                   value:
@@ -178,7 +178,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ResponseUser'
+                  $ref: '#/components/schemas/User'
               examples:
                 example:
                   value:
@@ -312,7 +312,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseUser'
+                $ref: '#/components/schemas/User'
               examples:
                 example:
                   value:
@@ -433,7 +433,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseUser'
+                $ref: '#/components/schemas/User'
               examples:
                 example:
                   value:
@@ -481,7 +481,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RequestUser'
+              $ref: '#/components/schemas/User'
             examples:
               example:
                 value:
@@ -576,7 +576,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ResponseUser'
+                  $ref: '#/components/schemas/User'
               examples:
                 example:
                   value:
@@ -644,7 +644,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ResponseUser'
+                  $ref: '#/components/schemas/User'
               examples:
                 example:
                   value:
@@ -765,17 +765,12 @@ paths:
       responses:
         '204':
           description: No Content
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: ''
+                $ref: '#/components/schemas/Error'
         '404':
           description: Not Found
           content:
@@ -791,24 +786,19 @@ paths:
       operationId: get-users-userID-following-targetUserID
 components:
   schemas:
-    RequestUser:
-      title: RequestUser
+    Login:
+      title: Login
       type: object
-      x-examples:
-        example:
-          username: bunjiro
-          display_name: 文次郎
-          status_message: Don't Panic!
       properties:
         username:
           type: string
-          minLength: 1
-        display_name:
+        password:
           type: string
-        status_message:
-          type: string
-    ResponseUser:
-      title: ResponseUser
+      required:
+        - username
+        - password
+    User:
+      title: User
       type: object
       x-examples:
         example:
@@ -853,15 +843,6 @@ components:
         updated_at:
           type: string
           format: date-time
-      required:
-        - id
-        - username
-        - display_name
-        - profile_image
-        - status
-        - status_message
-        - created_at
-        - updated_at
     Error:
       title: Error
       type: object

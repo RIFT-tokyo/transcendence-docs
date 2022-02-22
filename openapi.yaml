@@ -68,22 +68,7 @@ paths:
         content:
           application/json:
             schema:
-              description: ''
-              type: object
-              properties:
-                username:
-                  type: string
-                  minLength: 1
-                password:
-                  type: string
-                  minLength: 1
-              required:
-                - username
-                - password
-              x-examples:
-                example-1:
-                  username: syudai
-                  password: password
+              $ref: '#/components/schemas/Login'
             examples:
               example-1:
                 value:
@@ -91,6 +76,77 @@ paths:
                   password: password
       tags:
         - auth
+  /auth/signup:
+    post:
+      summary: Create new user
+      operationId: post-users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                example:
+                  value:
+                    id: 1
+                    username: taro
+                    display_name: 太郎
+                    profile_image: 'http://example.com'
+                    status: online
+                    status_message: ほげほげ
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
+              description: set sessionId
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    status_code: 409
+                    message: username is already used
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+            examples:
+              example:
+                value:
+                  username: john
+                  password: P@ssw0rd
+      parameters: []
+      tags:
+        - auth
+      security: []
   /auth/callback:
     get:
       summary: Oauth callback
@@ -229,76 +285,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-    post:
-      summary: Create new user
-      operationId: post-users
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseUser'
-              examples:
-                example:
-                  value:
-                    id: 1
-                    username: taro
-                    display_name: 太郎
-                    profile_image: 'http://example.com'
-                    status: online
-                    status_message: ほげほげ
-                    created_at: '2019-08-24T14:15:22Z'
-                    updated_at: '2019-08-24T14:15:22Z'
-          headers:
-            Set-Cookie:
-              schema:
-                type: string
-                example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
-              description: set sessionId
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                example:
-                  value:
-                    status_code: 409
-                    message: username is already used
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RequestUser'
-            examples:
-              example:
-                value:
-                  username: inu
-                  display_name: 犬
-                  status_message: bow-wow!
-      tags:
-        - user
-      parameters: []
   '/users/by/{username}':
     parameters:
       - $ref: '#/components/parameters/username'
@@ -356,7 +342,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseUser'
+                $ref: '#/components/schemas/User'
               examples:
                 example:
                   value:

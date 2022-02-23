@@ -61,8 +61,17 @@ paths:
       summary: Create new user
       operationId: post-users
       responses:
-        '200':
-          $ref: '#/components/responses/User'
+        '307':
+          description: Temporary Redirect
+          headers:
+            Location:
+              schema:
+                type: string
+              description: to the home
+            Set-Cookie:
+              schema:
+                type: string
+              description: set sessionId
         '400':
           $ref: '#/components/responses/400-Bad-Request'
         '409':

@@ -23,11 +23,7 @@ paths:
                 type: string
               description: redirect to 42's confirm browser
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       description: |-
         The first client request by 42 for oauth2.0.
         After this, you will be redirected to 42's confirm browser.
@@ -50,99 +46,33 @@ paths:
                 example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
               description: set sessionId
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       description: username and password auth without using auth.
       parameters: []
       security: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Login'
-            examples:
-              example-1:
-                value:
-                  username: syudai
-                  password: password
       tags:
         - auth
+      requestBody:
+        $ref: '#/components/requestBodies/Login'
   /auth/signup:
     post:
       summary: Create new user
       operationId: post-users
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                example:
-                  value:
-                    id: 1
-                    username: taro
-                    display_name: 太郎
-                    profile_image: 'http://example.com'
-                    status: online
-                    status_message: ほげほげ
-                    created_at: '2019-08-24T14:15:22Z'
-                    updated_at: '2019-08-24T14:15:22Z'
-          headers:
-            Set-Cookie:
-              schema:
-                type: string
-                example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
-              description: set sessionId
+          $ref: '#/components/responses/User'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                example:
-                  value:
-                    status_code: 409
-                    message: username is already used
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Login'
-            examples:
-              example:
-                value:
-                  username: john
-                  password: P@ssw0rd
+        $ref: '#/components/requestBodies/Login'
       parameters: []
       tags:
         - auth
@@ -166,11 +96,7 @@ paths:
                 example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
               description: set sessionId
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       operationId: get-auth-callback
       description: |-
         After allowing transcendence on screen 42, you will be redirected here.
@@ -182,40 +108,13 @@ paths:
       summary: Get the authenticated user
       responses:
         '200':
-          description: User Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                example:
-                  value:
-                    id: 1
-                    username: taro
-                    display_name: 太郎
-                    profile_image: 'http://example.com'
-                    status: online
-                    status_message: ほげほげ
-                    created_at: '2019-08-24T14:15:22Z'
-                    updated_at: '2019-08-24T14:15:22Z'
+          $ref: '#/components/responses/User'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       operationId: get-me
       description: Retrieve the information of the user with the matching user ID.
       tags:
@@ -228,58 +127,13 @@ paths:
         - user
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-              examples:
-                example:
-                  value:
-                    - id: 1
-                      username: inu
-                      display_name: 犬
-                      profile_image: 'http://example.com'
-                      status: online
-                      status_message: I'm dog
-                      created_at: '2019-08-24T14:15:22Z'
-                      updated_at: '2019-08-24T14:15:22Z'
-                    - id: 2
-                      username: saru
-                      display_name: 猿
-                      profile_image: 'http://example.com'
-                      status: offline
-                      status_message: I'm monkey
-                      created_at: '2019-08-24T14:15:22Z'
-                      updated_at: '2019-08-24T14:15:22Z'
-                    - id: 3
-                      username: kiji
-                      display_name: 雉
-                      profile_image: 'http://example.com'
-                      status: game
-                      status_message: I'm pheasant
-                      created_at: '2019-08-24T14:15:22Z'
-                      updated_at: '2019-08-24T14:15:22Z'
+          $ref: '#/components/responses/UserList'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/User'
       operationId: get-users
       description: ''
       parameters:
@@ -294,40 +148,13 @@ paths:
         - user
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                example:
-                  value:
-                    id: 1
-                    username: taro
-                    display_name: 太郎
-                    profile_image: 'http://example.com'
-                    status: online
-                    status_message: ほげほげ
-                    created_at: '2019-08-24T14:15:22Z'
-                    updated_at: '2019-08-24T14:15:22Z'
+          $ref: '#/components/responses/User'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       operationId: get-users-username
       description: ''
       parameters: []
@@ -338,40 +165,13 @@ paths:
       summary: Get a user
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                example:
-                  value:
-                    id: 1
-                    username: taro
-                    display_name: 太郎
-                    profile_image: 'http://example.com'
-                    status: online
-                    status_message: ほげほげ
-                    created_at: '2019-08-24T14:15:22Z'
-                    updated_at: '2019-08-24T14:15:22Z'
+          $ref: '#/components/responses/User'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       operationId: get-users-userId
       description: Retrieve the information of the user with the matching user ID.
       tags:
@@ -384,29 +184,13 @@ paths:
         '204':
           description: No Content
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       tags:
         - user
       parameters: []
@@ -415,65 +199,21 @@ paths:
       operationId: put-users-userId
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                example:
-                  value:
-                    id: 1
-                    username: taro
-                    display_name: 太郎
-                    profile_image: 'http://example.com'
-                    status: online
-                    status_message: ほげほげ
-                    created_at: '2019-08-24T14:15:22Z'
-                    updated_at: '2019-08-24T14:15:22Z'
+          $ref: '#/components/responses/User'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/User'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       tags:
         - user
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-            examples:
-              example:
-                value:
-                  username: inu
-                  display_name: 犬
-                  status_message: bow-wow!
+        $ref: '#/components/requestBodies/User'
   '/users/{userID}/images':
     parameters:
       - $ref: '#/components/parameters/userId'
@@ -484,35 +224,15 @@ paths:
         '204':
           description: No Content
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '413':
-          description: Request Entity Too Large
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '415':
-          description: Unsupported Media Type
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       description: ''
       requestBody:
         content:
@@ -529,23 +249,11 @@ paths:
         '204':
           description: No Content
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       description: ''
       tags:
         - user
@@ -556,58 +264,13 @@ paths:
       summary: List Followers of a user
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-              examples:
-                example:
-                  value:
-                    - id: 2
-                      username: inu
-                      display_name: 犬
-                      profile_image: 'http://example.com'
-                      status: online
-                      status_message: I'm dog
-                      created_at: '2019-08-24T14:15:22Z'
-                      updated_at: '2019-08-24T14:15:22Z'
-                    - id: 3
-                      username: saru
-                      display_name: 猿
-                      profile_image: 'http://example.com'
-                      status: offline
-                      status_message: I'm monkey
-                      created_at: '2019-08-24T14:15:22Z'
-                      updated_at: '2019-08-24T14:15:22Z'
-                    - id: 4
-                      username: kiji
-                      display_name: 雉
-                      profile_image: 'http://example.com'
-                      status: game
-                      status_message: I'm pheasant
-                      created_at: '2019-08-24T14:15:22Z'
-                      updated_at: '2019-08-24T14:15:22Z'
+          $ref: '#/components/responses/UserList'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       operationId: get-users-userId-friends
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -624,61 +287,13 @@ paths:
         - follow
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-              examples:
-                example:
-                  value:
-                    - id: 1
-                      username: inu
-                      display_name: 犬
-                      status: online
-                      status_message: わん
-                      followers: 1
-                      following: 3
-                      created_at: '2019-08-24T14:15:22Z'
-                      updated_at: '2019-08-24T14:15:22Z'
-                    - id: 2
-                      username: saru
-                      display_name: 猿
-                      status: offline
-                      status_message: うきー
-                      followers: 2
-                      following: 1
-                      created_at: '2019-08-24T14:15:22Z'
-                      updated_at: '2019-08-24T14:15:22Z'
-                    - id: 3
-                      username: kiji
-                      display_name: きじ
-                      status: game
-                      status_message: きー
-                      followers: 2
-                      following: 10
-                      created_at: '2019-08-24T14:15:22Z'
-                      updated_at: '2019-08-24T14:15:22Z'
+          $ref: '#/components/responses/UserList'
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       operationId: get-users-userID-following
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -694,23 +309,13 @@ paths:
         '204':
           description: No Content
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
+        '403':
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       tags:
         - follow
       description: ''
@@ -720,24 +325,12 @@ paths:
       responses:
         '204':
           description: No Content
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/Error'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       tags:
         - follow
   '/users/{userID}/following/{targetUserID}':
@@ -752,50 +345,17 @@ paths:
         '204':
           description: No Content
         '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/ErrorResponse'
         '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
         '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/Error'
       operationId: get-users-userID-following-targetUserID
 components:
   schemas:
-    Login:
-      title: Login
-      type: object
-      properties:
-        username:
-          type: string
-        password:
-          type: string
-      required:
-        - username
-        - password
     User:
       title: User
       type: object
-      x-examples:
-        example:
-          id: 42
-          username: nop
-          display_name: のっぷ
-          profile_image: 'localost:4211/users/nop/profile.jpg'
-          status: online
-          status_message: May the force be with you.
-          created_at: '2021-01-01T12:42:42Z'
-          updated_at: '2042-01-01T12:42:42Z'
       properties:
         id:
           type: integer
@@ -829,16 +389,130 @@ components:
         updated_at:
           type: string
           format: date-time
+    Login:
+      title: Login
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
     Error:
       title: Error
       type: object
       properties:
         status_code:
           type: integer
-        mesasge:
+        message:
           type: string
-  requestBodies: {}
-  responses: {}
+  requestBodies:
+    User:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+          examples:
+            example:
+              value:
+                display_name: Ironman
+                status_message: I love you 3000.
+    Login:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+            required:
+              - username
+              - password
+          examples:
+            example:
+              value:
+                username: tstark
+                password: password
+  responses:
+    Error:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            '400':
+              value:
+                status_code: 400
+                message: Bad Request
+            '500':
+              value:
+                status_code: 500
+                message: Internal Server Error
+    User:
+      description: Response a user
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+          examples:
+            example:
+              value:
+                id: 512
+                username: tstark
+                display_name: Tony Stark
+                profile_image: 'http://cdn.transcendence.com/profile/tstark.jpg'
+                status: online
+                status_message: I am Ironman.
+                followers: 3000
+                following: 85
+                created_at: '2019-08-24T14:15:22Z'
+                updated_at: '2019-08-24T14:15:22Z'
+    UserList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+          examples:
+            example:
+              value:
+                - id: 512
+                  username: tstark
+                  display_name: Tony Stark
+                  profile_image: 'http://cdn.transcendence.com/profile/tstark.jpg'
+                  status: online
+                  status_message: I am Ironman.
+                  followers: 3000
+                  following: 85
+                  created_at: '2019-08-24T14:15:22Z'
+                  updated_at: '2019-08-24T14:15:22Z'
+                - id: 412
+                  username: pparker
+                  display_name: Peter Parker
+                  profile_image: 'http://cdn.transcendence.com/profile/pparker.jpg'
+                  status: online
+                  status_message: Great power comes with great responsibility
+                  followers: 625
+                  following: 42
+                  created_at: '2019-08-24T14:15:22Z'
+                  updated_at: '2019-08-24T14:15:22Z'
+                - id: 381
+                  username: srogers
+                  display_name: Steve Rogers
+                  profile_image: 'http://cdn.transcendence.com/profile/srogers.jpg'
+                  status: online
+                  status_message: The Sentinel of Liberty
+                  followers: 1918
+                  following: 1
+                  created_at: '2019-08-24T14:15:22Z'
+                  updated_at: '2019-08-24T14:15:22Z'
   parameters:
     userId:
       name: userID

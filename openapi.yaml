@@ -23,7 +23,7 @@ paths:
                 type: string
               description: redirect to 42's confirm browser
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       description: |-
         The first client request by 42 for oauth2.0.
         After this, you will be redirected to 42's confirm browser.
@@ -46,9 +46,9 @@ paths:
                 example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
               description: set sessionId
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/400-Bad-Request'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       description: username and password auth without using auth.
       parameters: []
       security: []
@@ -64,13 +64,11 @@ paths:
         '200':
           $ref: '#/components/responses/User'
         '400':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/400-Bad-Request'
         '409':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/409-Conflict'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       requestBody:
         $ref: '#/components/requestBodies/Login'
       parameters: []
@@ -96,7 +94,7 @@ paths:
                 example: SessionID=CA978112CA1BBDCAFAC231B39A23DC4DA; Path=/; Secure; HttpOnly
               description: set sessionId
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-auth-callback
       description: |-
         After allowing transcendence on screen 42, you will be redirected here.
@@ -110,11 +108,11 @@ paths:
         '200':
           $ref: '#/components/responses/User'
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/400-Bad-Request'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-me
       description: Retrieve the information of the user with the matching user ID.
       tags:
@@ -129,11 +127,11 @@ paths:
         '200':
           $ref: '#/components/responses/UserList'
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/400-Bad-Request'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '500':
-          $ref: '#/components/responses/User'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-users
       description: ''
       parameters:
@@ -150,11 +148,11 @@ paths:
         '200':
           $ref: '#/components/responses/User'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/404-Not-Found'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-users-username
       description: ''
       parameters: []
@@ -167,11 +165,11 @@ paths:
         '200':
           $ref: '#/components/responses/User'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/404-Not-Found'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-users-userId
       description: Retrieve the information of the user with the matching user ID.
       tags:
@@ -184,13 +182,13 @@ paths:
         '204':
           description: No Content
         '400':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/400-Bad-Request'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/404-Not-Found'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       tags:
         - user
       parameters: []
@@ -201,15 +199,15 @@ paths:
         '200':
           $ref: '#/components/responses/User'
         '400':
-          $ref: '#/components/responses/User'
+          $ref: '#/components/responses/400-Bad-Request'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/404-Not-Found'
         '409':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/409-Conflict'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       tags:
         - user
       requestBody:
@@ -224,15 +222,15 @@ paths:
         '204':
           description: No Content
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/404-Not-Found'
         '413':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/413-Payload-Too-Large'
         '415':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/415-Unsupported-Media-Type'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       description: ''
       requestBody:
         content:
@@ -249,11 +247,11 @@ paths:
         '204':
           description: No Content
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/404-Not-Found'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       description: ''
       tags:
         - user
@@ -266,11 +264,11 @@ paths:
         '200':
           $ref: '#/components/responses/UserList'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/404-Not-Found'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-users-userId-friends
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -289,11 +287,11 @@ paths:
         '200':
           $ref: '#/components/responses/UserList'
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/404-Not-Found'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-users-userID-following
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -309,13 +307,11 @@ paths:
         '204':
           description: No Content
         '401':
-          $ref: '#/components/responses/Error'
-        '403':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/404-Not-Found'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       tags:
         - follow
       description: ''
@@ -326,11 +322,11 @@ paths:
         '204':
           description: No Content
         '401':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/401-Unauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/404-Not-Found'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       tags:
         - follow
   '/users/{userID}/following/{targetUserID}':
@@ -345,11 +341,11 @@ paths:
         '204':
           description: No Content
         '401':
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: '#/components/responses/401-Unauthorized'
         '404':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/404-Not-Found'
         '500':
-          $ref: '#/components/responses/Error'
+          $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-users-userID-following-targetUserID
 components:
   schemas:
@@ -438,23 +434,8 @@ components:
                 username: tstark
                 password: password
   responses:
-    Error:
-      description: Error response
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            '400':
-              value:
-                status_code: 400
-                message: Bad Request
-            '500':
-              value:
-                status_code: 500
-                message: Internal Server Error
     User:
-      description: Response a user
+      description: User response
       content:
         application/json:
           schema:
@@ -473,7 +454,7 @@ components:
                 created_at: '2019-08-24T14:15:22Z'
                 updated_at: '2019-08-24T14:15:22Z'
     UserList:
-      description: Example response
+      description: User list response
       content:
         application/json:
           schema:
@@ -513,6 +494,83 @@ components:
                   following: 1
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
+    400-Bad-Request:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            example:
+              value:
+                status_code: 400
+                message: Bad Request
+    401-Unauthorized:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            example:
+              value:
+                status_code: 401
+                message: Unauthorized
+    404-Not-Found:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            '404':
+              value:
+                status_code: 404
+                message: Not Found
+    409-Conflict:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            example:
+              value:
+                status_code: 409
+                message: Conflict
+    413-Payload-Too-Large:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            example:
+              value:
+                status_code: 413
+                message: Payload Too Large
+    415-Unsupported-Media-Type:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            example:
+              value:
+                status_code: 415
+                message: Unsupported Media Type
+    500-Internal-Server-Error:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            example:
+              value:
+                status_code: 500
+                message: Internal Server Error
   parameters:
     userId:
       name: userID

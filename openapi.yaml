@@ -33,13 +33,9 @@ paths:
       summary: username and password login
       operationId: post-auth-login
       responses:
-        '307':
-          description: Temporary Redirect
+        '204':
+          description: No Content
           headers:
-            Location:
-              schema:
-                type: string
-              description: to the home
             Set-Cookie:
               schema:
                 type: string
@@ -61,13 +57,9 @@ paths:
       summary: Create new user
       operationId: post-users
       responses:
-        '307':
-          description: Temporary Redirect
+        '204':
+          description: No Content
           headers:
-            Location:
-              schema:
-                type: string
-              description: to the home
             Set-Cookie:
               schema:
                 type: string
@@ -90,13 +82,9 @@ paths:
       tags:
         - auth
       responses:
-        '307':
-          description: Temporary Redirect
+        '204':
+          description: No Content
           headers:
-            Location:
-              schema:
-                type: string
-              description: to the home
             Set-Cookie:
               schema:
                 type: string

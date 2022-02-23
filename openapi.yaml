@@ -515,7 +515,7 @@ components:
                 status_code: 400
                 message: Bad Request
     401-Unauthorized:
-      description: Example response
+      description: Unauthorized
       content:
         application/json:
           schema:
@@ -526,7 +526,7 @@ components:
                 status_code: 401
                 message: Unauthorized
     404-Not-Found:
-      description: Error response
+      description: Not Found
       content:
         application/json:
           schema:
@@ -537,7 +537,7 @@ components:
                 status_code: 404
                 message: Not Found
     409-Conflict:
-      description: Example response
+      description: Conflict
       content:
         application/json:
           schema:
@@ -548,7 +548,7 @@ components:
                 status_code: 409
                 message: Conflict
     413-Payload-Too-Large:
-      description: Example response
+      description: Payload Too Large
       content:
         application/json:
           schema:
@@ -559,7 +559,7 @@ components:
                 status_code: 413
                 message: Payload Too Large
     415-Unsupported-Media-Type:
-      description: Example response
+      description: Unsupported Media Type
       content:
         application/json:
           schema:
@@ -570,7 +570,7 @@ components:
                 status_code: 415
                 message: Unsupported Media Type
     500-Internal-Server-Error:
-      description: Example response
+      description: Internal Server Error
       content:
         application/json:
           schema:

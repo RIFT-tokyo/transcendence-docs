@@ -603,3 +603,5 @@ components:
       type: apiKey
       in: cookie
       description: sessionId needed in cookie
+security:
+  - sessionAuth: []

@@ -416,15 +416,7 @@ components:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              username:
-                type: string
-              password:
-                type: string
-            required:
-              - username
-              - password
+            $ref: '#/components/schemas/Login'
           examples:
             example:
               value:

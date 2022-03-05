@@ -9,7 +9,7 @@ servers:
 paths:
   /auth/login:
     get:
-      summary: Oauth login request
+      summary: Login with 42 intra account
       tags:
         - auth
       operationId: get-auth-login
@@ -30,7 +30,7 @@ paths:
       security: []
     parameters: []
     post:
-      summary: username and password login
+      summary: Login with username and password
       operationId: post-auth-login
       responses:
         '204':
@@ -52,6 +52,21 @@ paths:
         - auth
       requestBody:
         $ref: '#/components/requestBodies/Login'
+  /auth/logout:
+    get:
+      summary: Logout from transcendence
+      operationId: post-auth-logout
+      responses:
+        '204':
+          description: No Content
+          headers: {}
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      tags:
+        - auth
+      description: logout from transcendence
   /auth/signup:
     post:
       summary: Create new user
@@ -82,8 +97,8 @@ paths:
       tags:
         - auth
       responses:
-        '204':
-          description: No Content
+        '302':
+          description: Found
           headers:
             Set-Cookie:
               schema:

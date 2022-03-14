@@ -231,8 +231,8 @@ paths:
       summary: Upload a user profile image
       operationId: post-users-userID-images
       responses:
-        '204':
-          description: No Content
+        '200':
+          $ref: '#/components/responses/FilePath'
         '401':
           $ref: '#/components/responses/401-Unauthorized'
         '404':
@@ -416,6 +416,13 @@ components:
           type: integer
         message:
           type: string
+    FilePath:
+      title: FilePath
+      type: object
+      properties:
+        file_path:
+          type: string
+      description: ''
   requestBodies:
     User:
       content:
@@ -575,6 +582,16 @@ components:
               value:
                 status_code: 500
                 message: Internal Server Error
+    FilePath:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FilePath'
+          examples:
+            example-1:
+              value:
+                file_path: 'http://localhost:9090/static/1-profile.jpg'
   parameters:
     userId:
       name: userID

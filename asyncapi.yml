@@ -6,14 +6,14 @@ info:
 
 servers:
   bootstrap:
-    url: localhost:4214
+    url: localhost:4210
     protocol: wss
     description: |
       Public server available without authorization.
       Once the socket is open you can subscribe to a public channel by sending a subscribe request message.
 
 channels:
-  /:
+  /users:
     publish:
       description: Send messages to the API
       message:
@@ -76,15 +76,13 @@ components:
           type: string
           const: userStatus
         status:
-          $ref: '#/components/schemas/status'
+          type: string
+          enum:
+            - online
+            - offline
+            - game
         username:
           $ref: '#/components/schemas/username'
-    status:
-      type: string
-      enum:
-        - online
-        - offline
-        - game
     username:
       type: string
       description: client unique username.

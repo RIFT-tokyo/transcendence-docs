@@ -13,18 +13,24 @@ servers:
       Once the socket is open you can subscribe to a public channel by sending a subscribe request message.
 
 channels:
-  /users:
+  /:
     publish:
       description: Send messages to the API
       message:
         oneOf:
           - $ref: '#/components/messages/ping'
-
+    
     subscribe:
       description: Messages that you receive from the API
       message:
         oneOf:
           - $ref: '#/components/messages/pong'
+
+  /users:
+    subscribe:
+      description: Messages that you receive from the API
+      message:
+        oneOf:
           - $ref: '#/components/messages/userStatus'
 
 components:

@@ -63,8 +63,6 @@ components:
         event:
           type: string
           const: ping
-        username:
-          $ref: '#/components/schemas/username'
       required:
         - event
     pong:
@@ -73,8 +71,6 @@ components:
         event:
           type: string
           const: pong
-        username:
-          $ref: '#/components/schemas/username'
     userStatus:
       type: object
       properties:

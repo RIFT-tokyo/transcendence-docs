@@ -84,10 +84,8 @@ components:
             - offline
             - game
         username:
-          $ref: '#/components/schemas/username'
-    username:
-      type: string
-      description: client unique username.
+          type: string
+          description: client unique username.
     token:
       type: string
       description: authentication token for private-data endpoints.

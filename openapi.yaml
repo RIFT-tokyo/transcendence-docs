@@ -70,7 +70,7 @@ paths:
   /auth/signup:
     post:
       summary: Create new user
-      operationId: post-users
+      operationId: post-auth-signup
       responses:
         '204':
           description: No Content
@@ -112,6 +112,23 @@ paths:
         After allowing transcendence on screen 42, you will be redirected here.
         This is where the server-side will register or retrieve the user's information.
       security: []
+  /auth/password:
+    parameters: []
+    put:
+      summary: Update User Password
+      operationId: put-auth-password
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      requestBody:
+        $ref: '#/components/requestBodies/Password'
+      description: ''
+      tags:
+        - auth
   /me:
     parameters: []
     get:
@@ -423,6 +440,17 @@ components:
         file_path:
           type: string
       description: ''
+    Password:
+      title: Password
+      type: object
+      properties:
+        old_password:
+          type: string
+        new_password:
+          type: string
+      required:
+        - old_password
+        - new_password
   requestBodies:
     User:
       content:
@@ -444,6 +472,16 @@ components:
               value:
                 username: tstark
                 password: password
+    Password:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Password'
+          examples:
+            example:
+              value:
+                old_password: We@kP@ssw0rd
+                new_password: Str0ngP@ssW0rd
   responses:
     User:
       description: User response

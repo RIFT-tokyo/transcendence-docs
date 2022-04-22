@@ -398,6 +398,10 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ChannelList'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-channels
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -517,6 +521,8 @@ components:
         slug:
           type: string
           minLength: 1
+        is_protected:
+          type: boolean
         created_at:
           type: string
           format: date-time
@@ -776,6 +782,20 @@ components:
                   slug: rules-f2d774a6-066f-4d5c-b7c1-124fb7186042
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
+    Channel:
+      description: Channel response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Channel'
+          examples:
+            example:
+              value:
+                id: 1
+                name: general
+                slug: general-419056ab-eec3-4d88-a9f9-2cb69f806816
+                created_at: '2019-08-24T14:15:22Z'
+                updated_at: '2019-08-24T14:15:22Z'
   parameters:
     userId:
       name: userID

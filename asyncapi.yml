@@ -7,7 +7,7 @@ info:
 servers:
   bootstrap:
     url: localhost:4210
-    protocol: wss
+    protocol: ws
     description: |
       Public server available without authorization.
       Once the socket is open you can subscribe to a public channel by sending a subscribe request message.

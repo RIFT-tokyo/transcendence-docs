@@ -407,6 +407,20 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
       description: ''
+    post:
+      summary: Create new channel
+      operationId: post-channels
+      responses:
+        '201':
+          $ref: '#/components/responses/Channel'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      tags:
+        - channel
+      requestBody:
+        $ref: '#/components/requestBodies/NewChannel'
 components:
   schemas:
     User:
@@ -568,6 +582,19 @@ components:
           type: integer
         loss:
           type: integer
+    NewChannel:
+      title: NewChannel
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+      required:
+        - name
+      x-examples: {}
   requestBodies:
     User:
       content:
@@ -599,6 +626,16 @@ components:
               value:
                 old_password: We@kP@ssw0rd
                 new_password: Str0ngP@ssW0rd
+    NewChannel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NewChannel'
+          examples:
+            example:
+              value:
+                name: channel-name
+                password: channel-password
   responses:
     User:
       description: User response

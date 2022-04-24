@@ -376,6 +376,20 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-users-userID-following-targetUserID
+  /matches:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - match
+      responses:
+        '200':
+          $ref: '#/components/responses/MatchList'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      operationId: get-matches
+      parameters: []
 components:
   schemas:
     User:
@@ -414,6 +428,11 @@ components:
         updated_at:
           type: string
           format: date-time
+        achievements:
+          type: array
+          uniqueItems: false
+          items:
+            $ref: '#/components/schemas/Achievement'
     Login:
       title: Login
       type: object
@@ -451,6 +470,66 @@ components:
       required:
         - old_password
         - new_password
+    Achievement:
+      title: Achievement
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        name:
+          type: string
+          minLength: 1
+        description:
+          type: string
+        image:
+          type: string
+          format: uri
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Match:
+      title: Match
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        host_player:
+          $ref: '#/components/schemas/User'
+        guest_player:
+          $ref: '#/components/schemas/User'
+        host_player_points:
+          type: integer
+        guest_player_points:
+          type: integer
+        result:
+          type: string
+          enum:
+            - host
+            - guest
+            - draw
+        start_at:
+          type: string
+          format: date-time
+        end_at:
+          type: string
+          format: date-time
+    RankedUser:
+      title: RankedUser
+      type: object
+      properties:
+        rank:
+          type: integer
+        user:
+          $ref: '#/components/schemas/User'
+        wins:
+          type: integer
+        loss:
+          type: integer
   requestBodies:
     User:
       content:
@@ -630,6 +709,15 @@ components:
             example-1:
               value:
                 file_path: 'http://localhost:9090/static/1-profile.jpg'
+    MatchList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Match'
+          examples: {}
   parameters:
     userId:
       name: userID

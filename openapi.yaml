@@ -299,9 +299,6 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-users-userId-friends
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
       tags:
         - follow
       description: Lists the people following the specified user.
@@ -322,9 +319,6 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-users-userID-following
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
       description: Lists the people who the specified user follows.
   '/users/following/{userID}':
     parameters:

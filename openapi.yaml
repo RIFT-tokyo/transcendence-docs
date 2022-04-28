@@ -398,6 +398,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ChannelList'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
         '401':
           $ref: '#/components/responses/401-Unauthorized'
         '500':
@@ -413,6 +415,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/Channel'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
         '401':
           $ref: '#/components/responses/401-Unauthorized'
         '500':

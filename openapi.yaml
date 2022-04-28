@@ -536,9 +536,6 @@ components:
         name:
           type: string
           minLength: 1
-        slug:
-          type: string
-          minLength: 1
         is_protected:
           type: boolean
         created_at:

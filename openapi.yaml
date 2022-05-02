@@ -733,10 +733,6 @@ components:
               has_next:
                 type: boolean
           examples: {}
-        application/xml:
-          schema:
-            type: object
-            properties: {}
   parameters:
     userId:
       name: userID

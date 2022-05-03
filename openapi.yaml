@@ -598,6 +598,26 @@ components:
       required:
         - name
       x-examples: {}
+    UserList:
+      title: UserList
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        has_next:
+          type: boolean
+    MatchList:
+      title: MatchList
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Match'
+        has_next:
+          type: boolean
   requestBodies:
     User:
       content:
@@ -664,14 +684,7 @@ components:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              entries:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-              has_next:
-                type: boolean
+            $ref: '#/components/schemas/UserList'
           examples:
             example:
               value:
@@ -800,14 +813,7 @@ components:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              entries:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Match'
-              has_next:
-                type: boolean
+            $ref: '#/components/schemas/MatchList'
           examples: {}
     ChannelList:
       description: Channel list response

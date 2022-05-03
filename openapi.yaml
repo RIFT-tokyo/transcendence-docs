@@ -392,41 +392,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-  /channels:
-    get:
-      summary: List channels
-      tags:
-        - channel
-      responses:
-        '200':
-          $ref: '#/components/responses/ChannelList'
-        '400':
-          $ref: '#/components/responses/400-Bad-Request'
-        '401':
-          $ref: '#/components/responses/401-Unauthorized'
-        '500':
-          $ref: '#/components/responses/500-Internal-Server-Error'
-      operationId: get-channels
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-      description: ''
-    post:
-      summary: Create new channel
-      operationId: post-channels
-      responses:
-        '201':
-          $ref: '#/components/responses/Channel'
-        '400':
-          $ref: '#/components/responses/400-Bad-Request'
-        '401':
-          $ref: '#/components/responses/401-Unauthorized'
-        '500':
-          $ref: '#/components/responses/500-Internal-Server-Error'
-      tags:
-        - channel
-      requestBody:
-        $ref: '#/components/requestBodies/NewChannel'
 components:
   schemas:
     User:
@@ -528,24 +493,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    Channel:
-      title: Channel
-      type: object
-      properties:
-        id:
-          type: number
-          minimum: 1
-        name:
-          type: string
-          minLength: 1
-        is_protected:
-          type: boolean
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
     Match:
       title: Match
       type: object
@@ -585,19 +532,26 @@ components:
           type: integer
         loss:
           type: integer
-    NewChannel:
-      title: NewChannel
+    UserList:
+      title: UserList
       type: object
       properties:
-        name:
-          type: string
-          minLength: 1
-        password:
-          type: string
-          minLength: 1
-      required:
-        - name
-      x-examples: {}
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        has_next:
+          type: boolean
+    MatchList:
+      title: MatchList
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Match'
+        has_next:
+          type: boolean
   requestBodies:
     User:
       content:
@@ -629,16 +583,6 @@ components:
               value:
                 old_password: We@kP@ssw0rd
                 new_password: Str0ngP@ssW0rd
-    NewChannel:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/NewChannel'
-          examples:
-            example:
-              value:
-                name: channel-name
-                password: channel-password
   responses:
     User:
       description: User response
@@ -664,14 +608,7 @@ components:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              entries:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-              has_next:
-                type: boolean
+            $ref: '#/components/schemas/UserList'
           examples:
             example:
               value:
@@ -800,55 +737,8 @@ components:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              entries:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Match'
-              has_next:
-                type: boolean
+            $ref: '#/components/schemas/MatchList'
           examples: {}
-    ChannelList:
-      description: Channel list response
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/Channel'
-          examples:
-            example:
-              value:
-                - id: 1
-                  name: general
-                  slug: general-419056ab-eec3-4d88-a9f9-2cb69f806816
-                  created_at: '2019-08-24T14:15:22Z'
-                  updated_at: '2019-08-24T14:15:22Z'
-                - id: 2
-                  name: random
-                  slug: random-1b754972-b377-4fd4-a88a-439821e12d4d
-                  created_at: '2019-08-24T14:15:22Z'
-                  updated_at: '2019-08-24T14:15:22Z'
-                - id: 3
-                  name: rules
-                  slug: rules-f2d774a6-066f-4d5c-b7c1-124fb7186042
-                  created_at: '2019-08-24T14:15:22Z'
-                  updated_at: '2019-08-24T14:15:22Z'
-    Channel:
-      description: Channel response
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Channel'
-          examples:
-            example:
-              value:
-                id: 1
-                name: general
-                slug: general-419056ab-eec3-4d88-a9f9-2cb69f806816
-                created_at: '2019-08-24T14:15:22Z'
-                updated_at: '2019-08-24T14:15:22Z'
   parameters:
     userId:
       name: userID

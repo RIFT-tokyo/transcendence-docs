@@ -389,7 +389,9 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-matches
-      parameters: []
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
   /channels:
     get:
       summary: List channels
@@ -405,9 +407,6 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-channels
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
       description: ''
     post:
       summary: Create new channel
@@ -596,6 +595,26 @@ components:
       required:
         - name
       x-examples: {}
+    UserList:
+      title: UserList
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        has_next:
+          type: boolean
+    MatchList:
+      title: MatchList
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Match'
+        has_next:
+          type: boolean
   requestBodies:
     User:
       content:
@@ -662,42 +681,43 @@ components:
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/User'
+            $ref: '#/components/schemas/UserList'
           examples:
             example:
               value:
-                - id: 512
-                  username: tstark
-                  display_name: Tony Stark
-                  profile_image: 'http://cdn.transcendence.com/profile/tstark.jpg'
-                  status: online
-                  status_message: I am Ironman.
-                  followers: 3000
-                  following: 85
-                  created_at: '2019-08-24T14:15:22Z'
-                  updated_at: '2019-08-24T14:15:22Z'
-                - id: 412
-                  username: pparker
-                  display_name: Peter Parker
-                  profile_image: 'http://cdn.transcendence.com/profile/pparker.jpg'
-                  status: online
-                  status_message: Great power comes with great responsibility
-                  followers: 625
-                  following: 42
-                  created_at: '2019-08-24T14:15:22Z'
-                  updated_at: '2019-08-24T14:15:22Z'
-                - id: 381
-                  username: srogers
-                  display_name: Steve Rogers
-                  profile_image: 'http://cdn.transcendence.com/profile/srogers.jpg'
-                  status: online
-                  status_message: The Sentinel of Liberty
-                  followers: 1918
-                  following: 1
-                  created_at: '2019-08-24T14:15:22Z'
-                  updated_at: '2019-08-24T14:15:22Z'
+                - entries:
+                    - id: 512
+                      username: tstark
+                      display_name: Tony Stark
+                      profile_image: 'http://cdn.transcendence.com/profile/tstark.jpg'
+                      status: online
+                      status_message: I am Ironman.
+                      followers: 3000
+                      following: 85
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 513
+                      username: pparker
+                      display_name: Peter Parker
+                      profile_image: 'http://cdn.transcendence.com/profile/pparker.jpg'
+                      status: online
+                      status_message: Great power comes with great responsibility
+                      followers: 625
+                      following: 42
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                    - id: 514
+                      username: srogers
+                      display_name: Steve Rogers
+                      profile_image: 'http://cdn.transcendence.com/profile/srogers.jpg'
+                      status: online
+                      status_message: The Sentinel of Liberty
+                      followers: 1918
+                      following: 1
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                - has_next
+                - true
     400-Bad-Request:
       description: Bad Request
       content:
@@ -790,9 +810,7 @@ components:
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/Match'
+            $ref: '#/components/schemas/MatchList'
           examples: {}
     ChannelList:
       description: Channel list response

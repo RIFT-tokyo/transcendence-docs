@@ -424,6 +424,44 @@ paths:
         - channel
       requestBody:
         $ref: '#/components/requestBodies/NewChannel'
+  /channels/users/me:
+    get:
+      summary: List channels in which the authenticated user participates
+      tags:
+        - channel
+      responses:
+        '200':
+          $ref: '#/components/responses/ChannelUserList'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      operationId: get-channels-me
+      description: ''
+    parameters: []
+  '/channels/users/{userID}':
+    parameters:
+      - schema:
+          type: string
+        name: userID
+        in: path
+        required: true
+    get:
+      summary: List channels in which a user participates
+      tags:
+        - channel
+      responses:
+        '200':
+          $ref: '#/components/responses/ChannelUserList'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      operationId: get-channels-users-userID
 components:
   schemas:
     User:
@@ -871,6 +909,39 @@ components:
                 name: general
                 created_at: '2019-08-24T14:15:22Z'
                 updated_at: '2019-08-24T14:15:22Z'
+    ChannelUserList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ChannelUser'
+          examples:
+            example:
+              value:
+                - id: 1
+                  channel:
+                    id: 1
+                    name: general
+                    is_protected: false
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+                  is_ban: false
+                  role:
+                    id: 1
+                    name: owner
+                - id: 2
+                  channel:
+                    id: 2
+                    name: secret channel
+                    is_protected: true
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+                  is_ban: false
+                  role:
+                    id: 2
+                    name: administrator
   parameters:
     userId:
       name: userID

@@ -424,7 +424,7 @@ paths:
         - channel
       requestBody:
         $ref: '#/components/requestBodies/NewChannel'
-  /channels/users/me:
+  /channels/me:
     get:
       summary: List channels in which the authenticated user participates
       tags:
@@ -441,15 +441,15 @@ paths:
       operationId: get-channels-me
       description: ''
     parameters: []
-  '/channels/users/{userID}':
+  '/channels/{channelID}/users':
     parameters:
       - schema:
           type: string
-        name: userID
+        name: channelID
         in: path
         required: true
     get:
-      summary: List channels in which a user participates
+      summary: List users participating in a channel
       tags:
         - channel
       responses:

@@ -615,6 +615,29 @@ components:
             $ref: '#/components/schemas/Match'
         has_next:
           type: boolean
+    ChannelUser:
+      title: ChannelUser
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        channel:
+          $ref: '#/components/schemas/Channel'
+        is_ban:
+          type: boolean
+        role:
+          $ref: '#/components/schemas/Role'
+    Role:
+      title: Role
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        name:
+          type: string
+          minLength: 1
   requestBodies:
     User:
       content:

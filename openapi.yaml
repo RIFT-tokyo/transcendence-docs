@@ -717,6 +717,11 @@ components:
               value:
                 name: channel-name
                 password: channel-password
+    ChannelUser:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChannelUser'
   responses:
     User:
       description: User response
@@ -910,7 +915,7 @@ components:
                 created_at: '2019-08-24T14:15:22Z'
                 updated_at: '2019-08-24T14:15:22Z'
     ChannelUserList:
-      description: Example response
+      description: ChannelUser list response
       content:
         application/json:
           schema:
@@ -942,6 +947,26 @@ components:
                   role:
                     id: 2
                     name: administrator
+    ChannelUser:
+      description: ChannelUser response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChannelUser'
+          examples:
+            example:
+              value:
+                id: 1
+                channel:
+                  id: 1
+                  name: general
+                  is_protected: false
+                  created_at: '2019-08-24T14:15:22Z'
+                  updated_at: '2019-08-24T14:15:22Z'
+                is_ban: false
+                role:
+                  id: 1
+                  name: owner
   parameters:
     userId:
       name: userID

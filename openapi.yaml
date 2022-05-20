@@ -462,6 +462,63 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-channels-users-userID
+  '/channels/{channelID}':
+    parameters:
+      - schema:
+          type: string
+        name: channelID
+        in: path
+        required: true
+    post:
+      summary: Join channel
+      operationId: post-channels-channelID
+      responses:
+        '200':
+          $ref: '#/components/responses/ChannelUser'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+    delete:
+      summary: Leave channel
+      operationId: delete-channels-channelID
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+  '/channels/{channelID}/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: channelID
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    put:
+      summary: Update the status of users participating in the channel
+      operationId: put-channels-channelID-users-userId
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      requestBody:
+        $ref: '#/components/requestBodies/ChannelUser'
 components:
   schemas:
     User:

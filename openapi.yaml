@@ -729,8 +729,6 @@ components:
           $ref: '#/components/schemas/User'
         is_ban:
           type: boolean
-        is_authorized:
-          type: boolean
         role:
           $ref: '#/components/schemas/Role'
         created_at:
@@ -824,7 +822,6 @@ components:
                       created_at: '2019-08-24T14:15:22Z'
                       updated_at: '2019-08-24T14:15:22Z'
                 is_ban: true
-                is_authorized: true
                 role:
                   id: 1
                   name: owner
@@ -1059,7 +1056,6 @@ components:
                         created_at: '2019-08-24T14:15:22Z'
                         updated_at: '2019-08-24T14:15:22Z'
                   is_ban: true
-                  is_authorized: true
                   role:
                     id: 1
                     name: owner
@@ -1091,7 +1087,6 @@ components:
                         created_at: '2019-08-24T14:15:22Z'
                         updated_at: '2019-08-24T14:15:22Z'
                   is_ban: false
-                  is_authorized: true
                   role:
                     id: 2
                     name: administrator
@@ -1132,7 +1127,6 @@ components:
                       created_at: '2019-08-24T14:15:22Z'
                       updated_at: '2019-08-24T14:15:22Z'
                 is_ban: true
-                is_authorized: true
                 role:
                   id: 1
                   name: owner

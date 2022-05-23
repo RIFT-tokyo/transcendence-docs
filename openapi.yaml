@@ -719,6 +719,8 @@ components:
           minimum: 1
         channel:
           $ref: '#/components/schemas/Channel'
+        user:
+          $ref: '#/components/schemas/User'
         is_ban:
           type: boolean
         role:
@@ -989,7 +991,25 @@ components:
                     is_protected: false
                     created_at: '2019-08-24T14:15:22Z'
                     updated_at: '2019-08-24T14:15:22Z'
-                  is_ban: false
+                  user:
+                    id: 1
+                    username: alice
+                    display_name: Alice
+                    profile_image: 'http://example.com'
+                    status: online
+                    status_message: status message
+                    followers: 0
+                    following: 0
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+                    achievements:
+                      - id: 1
+                        name: archievement
+                        description: archievement description
+                        image: 'http://example.com'
+                        created_at: '2019-08-24T14:15:22Z'
+                        updated_at: '2019-08-24T14:15:22Z'
+                  is_ban: true
                   role:
                     id: 1
                     name: owner
@@ -1000,6 +1020,24 @@ components:
                     is_protected: true
                     created_at: '2019-08-24T14:15:22Z'
                     updated_at: '2019-08-24T14:15:22Z'
+                  user:
+                    id: 2
+                    username: bob
+                    display_name: Bob
+                    profile_image: 'http://example.com'
+                    status: online
+                    status_message: status message
+                    followers: 0
+                    following: 0
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+                    achievements:
+                      - id: 1
+                        name: archievement
+                        description: archievement description
+                        image: 'http://example.com'
+                        created_at: '2019-08-24T14:15:22Z'
+                        updated_at: '2019-08-24T14:15:22Z'
                   is_ban: false
                   role:
                     id: 2
@@ -1020,7 +1058,25 @@ components:
                   is_protected: false
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
-                is_ban: false
+                user:
+                  id: 1
+                  username: alice
+                  display_name: Alice
+                  profile_image: 'http://example.com'
+                  status: online
+                  status_message: status message
+                  followers: 0
+                  following: 0
+                  created_at: '2019-08-24T14:15:22Z'
+                  updated_at: '2019-08-24T14:15:22Z'
+                  achievements:
+                    - id: 1
+                      name: archievement
+                      description: archievement description
+                      image: 'http://example.com'
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                is_ban: true
                 role:
                   id: 1
                   name: owner

@@ -481,6 +481,8 @@ paths:
           $ref: '#/components/responses/401-Unauthorized'
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
+      tags:
+        - channel
     delete:
       summary: Leave channel
       operationId: delete-channels-channelID
@@ -493,6 +495,8 @@ paths:
           $ref: '#/components/responses/401-Unauthorized'
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
+      tags:
+        - channel
   '/channels/{channelID}/users/{userID}':
     parameters:
       - schema:
@@ -519,6 +523,8 @@ paths:
           $ref: '#/components/responses/500-Internal-Server-Error'
       requestBody:
         $ref: '#/components/requestBodies/ChannelUser'
+      tags:
+        - channel
 components:
   schemas:
     User:

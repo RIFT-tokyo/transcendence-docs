@@ -493,7 +493,7 @@ paths:
           $ref: '#/components/responses/401-Unauthorized'
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
-  '/channels/{channelID}/users/{userId}':
+  '/channels/{channelID}/users/{userID}':
     parameters:
       - schema:
           type: string
@@ -502,12 +502,12 @@ paths:
         required: true
       - schema:
           type: string
-        name: userId
+        name: userID
         in: path
         required: true
     put:
-      summary: Update the status of users participating in the channel
-      operationId: put-channels-channelID-users-userId
+      summary: Update the status of user participating in the channel
+      operationId: put-channels-channelID-users-userID
       responses:
         '200':
           description: OK

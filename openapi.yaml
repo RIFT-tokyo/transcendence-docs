@@ -424,14 +424,14 @@ paths:
         - channel
       requestBody:
         $ref: '#/components/requestBodies/NewChannel'
-  /channels/me:
+  /me/channels:
     get:
       summary: List channels in which the authenticated user participates
       tags:
         - channel
       responses:
         '200':
-          $ref: '#/components/responses/ChannelUserPermissionList'
+          $ref: '#/components/responses/ChannelList'
         '400':
           $ref: '#/components/responses/400-Bad-Request'
         '401':
@@ -454,7 +454,7 @@ paths:
         - channel
       responses:
         '200':
-          $ref: '#/components/responses/ChannelUserPermissionList'
+          $ref: '#/components/responses/ChannelUserList'
         '400':
           $ref: '#/components/responses/400-Bad-Request'
         '401':
@@ -469,12 +469,12 @@ paths:
         name: channelID
         in: path
         required: true
-    post:
-      summary: Join channel
-      operationId: post-channels-channelID
+    put:
+      summary: Update a channel
+      operationId: put-channels-channelID
       responses:
         '200':
-          $ref: '#/components/responses/ChannelUserPermission'
+          description: OK
         '400':
           $ref: '#/components/responses/400-Bad-Request'
         '401':
@@ -483,9 +483,34 @@ paths:
           $ref: '#/components/responses/500-Internal-Server-Error'
       tags:
         - channel
+      requestBody:
+        $ref: '#/components/requestBodies/NewChannel'
+      description: ''
+  '/me/channels/{channelId}':
+    parameters:
+      - schema:
+          type: string
+        name: channelId
+        in: path
+        required: true
+    put:
+      summary: Join channel
+      operationId: put-me-channels-channelId
+      responses:
+        '200':
+          $ref: '#/components/responses/Channel'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      tags:
+        - channel
+      description: ''
     delete:
       summary: Leave channel
-      operationId: delete-channels-channelID
+      operationId: delete-me-channels-channelId
       responses:
         '204':
           description: No Content
@@ -495,9 +520,10 @@ paths:
           $ref: '#/components/responses/401-Unauthorized'
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
+      description: ''
       tags:
         - channel
-  '/channels/{channelID}/users/{userID}':
+  '/users/{userID}/channels/{channelID}':
     parameters:
       - schema:
           type: string
@@ -514,7 +540,7 @@ paths:
       operationId: put-channels-channelID-users-userID
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/ChannelUser'
         '400':
           $ref: '#/components/responses/400-Bad-Request'
         '401':
@@ -638,6 +664,8 @@ components:
           minLength: 1
         is_protected:
           type: boolean
+        role:
+          $ref: '#/components/schemas/Role'
         created_at:
           type: string
           format: date-time
@@ -716,24 +744,6 @@ components:
             $ref: '#/components/schemas/Match'
         has_next:
           type: boolean
-    ChannelUserPermission:
-      title: ChannelUserPermission
-      type: object
-      properties:
-        channel:
-          $ref: '#/components/schemas/Channel'
-        user:
-          $ref: '#/components/schemas/User'
-        is_ban:
-          type: boolean
-        role:
-          $ref: '#/components/schemas/Role'
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
     Role:
       title: Role
       type: object
@@ -744,6 +754,26 @@ components:
         name:
           type: string
           minLength: 1
+    ChannelUserPermission:
+      title: ChannelUserPermission
+      x-stoplight:
+        id: 8554qm6w072w8
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/Role'
+        is_ban:
+          type: boolean
+    ChannelUser:
+      title: ChannelUser
+      x-stoplight:
+        id: t8dooi4t34w1a
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        role:
+          $ref: '#/components/schemas/Role'
   requestBodies:
     User:
       content:
@@ -793,36 +823,12 @@ components:
           examples:
             example:
               value:
-                channel:
-                  id: 1
-                  name: general
-                  is_protected: false
-                  created_at: '2019-08-24T14:15:22Z'
-                  updated_at: '2019-08-24T14:15:22Z'
-                user:
-                  id: 1
-                  username: alice
-                  display_name: Alice
-                  profile_image: 'http://example.com'
-                  status: online
-                  status_message: string
-                  followers: 0
-                  following: 0
-                  created_at: '2019-08-24T14:15:22Z'
-                  updated_at: '2019-08-24T14:15:22Z'
-                  achievements:
-                    - id: 1
-                      name: achievement
-                      description: achievement description
-                      image: 'http://example.com'
-                      created_at: '2019-08-24T14:15:22Z'
-                      updated_at: '2019-08-24T14:15:22Z'
-                is_ban: true
+                channel_id: 1
+                user_id: 1
                 role:
                   id: 1
                   name: owner
-                created_at: '2019-08-24T14:15:22Z'
-                updated_at: '2019-08-24T14:15:22Z'
+                is_ban: false
   responses:
     User:
       description: User response
@@ -992,14 +998,24 @@ components:
               value:
                 - id: 1
                   name: general
+                  is_protected: false
+                  role:
+                    id: 1
+                    name: owner
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
                 - id: 2
                   name: random
+                  is_protected: false
+                  role:
+                    id: 2
+                    name: administrator
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
-                - id: 3
-                  name: rules
+                - id: 2
+                  name: secret
+                  is_protected: true
+                  role: null
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
     Channel:
@@ -1013,118 +1029,74 @@ components:
               value:
                 id: 1
                 name: general
+                is_protected: false
+                role:
+                  id: 1
+                  name: owner
                 created_at: '2019-08-24T14:15:22Z'
                 updated_at: '2019-08-24T14:15:22Z'
-    ChannelUserPermissionList:
-      description: ChannelUserPermission list response
+    ChannelUserList:
+      description: ChannelUser list response
       content:
         application/json:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/ChannelUserPermission'
+              $ref: '#/components/schemas/ChannelUser'
           examples:
             example:
               value:
-                - channel:
+                - user:
                     id: 1
-                    name: general
-                    is_protected: false
-                    created_at: '2019-08-24T14:15:22Z'
-                    updated_at: '2019-08-24T14:15:22Z'
-                  user:
-                    id: 1
-                    username: alice
-                    display_name: Alice
+                    username: username
+                    display_name: display_name
                     profile_image: 'http://example.com'
                     status: online
-                    status_message: status message
+                    status_message: status_message
                     followers: 0
                     following: 0
                     created_at: '2019-08-24T14:15:22Z'
                     updated_at: '2019-08-24T14:15:22Z'
                     achievements:
                       - id: 1
-                        name: archievement
-                        description: archievement description
+                        name: achievement name
+                        description: achievement description
                         image: 'http://example.com'
                         created_at: '2019-08-24T14:15:22Z'
                         updated_at: '2019-08-24T14:15:22Z'
-                  is_ban: true
-                  role:
-                    id: 1
-                    name: owner
-                  created_at: '2019-08-24T14:15:22Z'
-                  updated_at: '2019-08-24T14:15:22Z'
-                - channel:
-                    id: 2
-                    name: secret channel
-                    is_protected: true
-                    created_at: '2019-08-24T14:15:22Z'
-                    updated_at: '2019-08-24T14:15:22Z'
-                  user:
-                    id: 2
-                    username: bob
-                    display_name: Bob
-                    profile_image: 'http://example.com'
-                    status: online
-                    status_message: status message
-                    followers: 0
-                    following: 0
-                    created_at: '2019-08-24T14:15:22Z'
-                    updated_at: '2019-08-24T14:15:22Z'
-                    achievements:
-                      - id: 1
-                        name: archievement
-                        description: archievement description
-                        image: 'http://example.com'
-                        created_at: '2019-08-24T14:15:22Z'
-                        updated_at: '2019-08-24T14:15:22Z'
-                  is_ban: false
                   role:
                     id: 2
                     name: administrator
-                  created_at: '2019-08-24T14:15:22Z'
-                  updated_at: '2019-08-24T14:15:22Z'
-    ChannelUserPermission:
-      description: ChannelUserPermission response
+    ChannelUser:
+      description: ChannelUser response
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ChannelUserPermission'
+            $ref: '#/components/schemas/ChannelUser'
           examples:
             example:
               value:
-                channel:
-                  id: 1
-                  name: general
-                  is_protected: false
-                  created_at: '2019-08-24T14:15:22Z'
-                  updated_at: '2019-08-24T14:15:22Z'
                 user:
                   id: 1
-                  username: alice
-                  display_name: Alice
+                  username: username
+                  display_name: display_name
                   profile_image: 'http://example.com'
                   status: online
-                  status_message: status message
+                  status_message: status_message
                   followers: 0
                   following: 0
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
                   achievements:
                     - id: 1
-                      name: archievement
-                      description: archievement description
+                      name: achievement name
+                      description: achievement description
                       image: 'http://example.com'
                       created_at: '2019-08-24T14:15:22Z'
                       updated_at: '2019-08-24T14:15:22Z'
-                is_ban: true
                 role:
-                  id: 1
-                  name: owner
-                created_at: '2019-08-24T14:15:22Z'
-                updated_at: '2019-08-24T14:15:22Z'
+                  id: 2
+                  name: administrator
   parameters:
     userId:
       name: userID

@@ -508,6 +508,8 @@ paths:
       tags:
         - channel
       description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/ChannelPassword'
     delete:
       summary: Leave channel
       operationId: delete-me-channels-channelId
@@ -756,8 +758,6 @@ components:
           minLength: 1
     ChannelUserPermission:
       title: ChannelUserPermission
-      x-stoplight:
-        id: 8554qm6w072w8
       type: object
       properties:
         role:
@@ -766,14 +766,18 @@ components:
           type: boolean
     ChannelUser:
       title: ChannelUser
-      x-stoplight:
-        id: t8dooi4t34w1a
       type: object
       properties:
         user:
           $ref: '#/components/schemas/User'
         role:
           $ref: '#/components/schemas/Role'
+    ChannelPassword:
+      title: ChannelPassword
+      type: object
+      properties:
+        password:
+          type: string
   requestBodies:
     User:
       content:
@@ -829,6 +833,15 @@ components:
                   id: 1
                   name: owner
                 is_ban: false
+    ChannelPassword:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChannelPassword'
+          examples:
+            example:
+              value:
+                password: channel password
   responses:
     User:
       description: User response

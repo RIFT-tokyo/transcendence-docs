@@ -424,6 +424,77 @@ paths:
         - channel
       requestBody:
         $ref: '#/components/requestBodies/NewChannel'
+  /auth/2fa/verify:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-auth-2fa-verify
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authcode:
+                  type: string
+        description: one time password
+  /auth/2fa/activate:
+    post:
+      summary: ''
+      operationId: post-auth-2fa-activate
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authcode:
+                  type: string
+                password:
+                  type: string
+        description: authcode & password are needed to activate 2-factor-auth
+  /auth/2fa/deactivate:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      operationId: get-auth-2fa-deactivate
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+    parameters: []
+  /auth/2fa/qrcode:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qrcode:
+                    type: string
+      operationId: get-auth-2fa-qrcode
 components:
   schemas:
     User:
@@ -467,6 +538,8 @@ components:
           uniqueItems: false
           items:
             $ref: '#/components/schemas/Achievement'
+        is_two_fa_enabled:
+          type: boolean
     Login:
       title: Login
       type: object

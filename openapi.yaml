@@ -441,6 +441,8 @@ paths:
                 authcode:
                   type: string
         description: one time password
+      tags:
+        - auth
   /auth/2fa/activate:
     post:
       summary: ''
@@ -465,10 +467,13 @@ paths:
                 password:
                   type: string
         description: authcode & password are needed to activate 2-factor-auth
+      tags:
+        - auth
   /auth/2fa/deactivate:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - auth
       operationId: get-auth-2fa-deactivate
       responses:
         '200':
@@ -483,7 +488,8 @@ paths:
   /auth/2fa/qrcode:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - auth
       responses:
         '200':
           description: OK
@@ -495,6 +501,7 @@ paths:
                   qrcode:
                     type: string
       operationId: get-auth-2fa-qrcode
+      description: ''
 components:
   schemas:
     User:

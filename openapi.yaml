@@ -444,7 +444,7 @@ paths:
   '/channels/{channelID}/users':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: channelID
         in: path
         required: true
@@ -464,11 +464,7 @@ paths:
       operationId: get-channels-users-userID
   '/channels/{channelID}':
     parameters:
-      - schema:
-          type: string
-        name: channelID
-        in: path
-        required: true
+      - $ref: '#/components/parameters/channelId'
     put:
       summary: Update a channel
       operationId: put-channels-channelID
@@ -486,13 +482,9 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/NewChannel'
       description: ''
-  '/me/channels/{channelId}':
+  '/me/channels/{channelID}':
     parameters:
-      - schema:
-          type: string
-        name: channelId
-        in: path
-        required: true
+      - $ref: '#/components/parameters/channelId'
     put:
       summary: Join channel
       operationId: put-me-channels-channelId
@@ -527,16 +519,8 @@ paths:
         - channel
   '/users/{userID}/channels/{channelID}':
     parameters:
-      - schema:
-          type: string
-        name: channelID
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: userID
-        in: path
-        required: true
+      - $ref: '#/components/parameters/channelId'
+      - $ref: '#/components/parameters/userId'
     put:
       summary: Update the status of user participating in the channel
       operationId: put-channels-channelID-users-userID
@@ -1146,6 +1130,12 @@ components:
       schema:
         type: integer
         minimum: 1
+    channelId:
+      name: channelID
+      in: path
+      required: true
+      schema:
+        type: integer
   examples: {}
   securitySchemes:
     sessionAuth:

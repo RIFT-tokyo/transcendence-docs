@@ -448,8 +448,8 @@ paths:
       summary: ''
       operationId: post-auth-2fa-activate
       responses:
-        '201':
-          description: Created
+        '204':
+          description: No Content
         '400':
           description: Bad Request
         '401':
@@ -463,8 +463,6 @@ paths:
               type: object
               properties:
                 authcode:
-                  type: string
-                password:
                   type: string
         description: authcode & password are needed to activate 2-factor-auth
       tags:
@@ -484,6 +482,7 @@ paths:
           description: Unauthorized
         '500':
           description: Internal Server Error
+      description: ''
     parameters: []
   /auth/2fa/qrcode:
     get:

@@ -441,26 +441,6 @@ paths:
       operationId: get-channels-me
       description: ''
     parameters: []
-  '/channels/{channelID}':
-    parameters:
-      - $ref: '#/components/parameters/channelId'
-    put:
-      summary: Update a channel
-      operationId: put-channels-channelID
-      responses:
-        '200':
-          description: OK
-        '400':
-          $ref: '#/components/responses/400-Bad-Request'
-        '401':
-          $ref: '#/components/responses/401-Unauthorized'
-        '500':
-          $ref: '#/components/responses/500-Internal-Server-Error'
-      tags:
-        - channel
-      requestBody:
-        $ref: '#/components/requestBodies/NewChannel'
-      description: ''
   '/me/channels/{channelID}':
     parameters:
       - $ref: '#/components/parameters/channelId'

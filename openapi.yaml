@@ -590,7 +590,11 @@ components:
         is_protected:
           type: boolean
         role:
-          $ref: '#/components/schemas/Role'
+          type: string
+          enum:
+            - owner
+            - administrator
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -669,16 +673,6 @@ components:
             $ref: '#/components/schemas/Match'
         has_next:
           type: boolean
-    Role:
-      title: Role
-      type: object
-      properties:
-        id:
-          type: integer
-          minimum: 1
-        name:
-          type: string
-          minLength: 1
     ChannelPassword:
       title: ChannelPassword
       type: object
@@ -905,17 +899,13 @@ components:
                 - id: 1
                   name: general
                   is_protected: false
-                  role:
-                    id: 1
-                    name: owner
+                  role: owner
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
                 - id: 2
                   name: random
                   is_protected: false
-                  role:
-                    id: 2
-                    name: administrator
+                  role: administrator
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
                 - id: 2
@@ -936,9 +926,7 @@ components:
                 id: 1
                 name: general
                 is_protected: false
-                role:
-                  id: 1
-                  name: owner
+                role: owner
                 created_at: '2019-08-24T14:15:22Z'
                 updated_at: '2019-08-24T14:15:22Z'
   parameters:

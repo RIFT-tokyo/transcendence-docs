@@ -441,6 +441,47 @@ paths:
       operationId: get-channels-me
       description: ''
     parameters: []
+  '/channels/{channelID}/users':
+    parameters:
+      - schema:
+          type: integer
+        name: channelID
+        in: path
+        required: true
+    get:
+      summary: List users participating in a channel
+      tags:
+        - channel
+      responses:
+        '200':
+          $ref: '#/components/responses/ChannelUserList'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      operationId: get-channels-users-userID
+  '/channels/{channelID}':
+    parameters:
+      - $ref: '#/components/parameters/channelId'
+    put:
+      summary: Update a channel
+      operationId: put-channels-channelID
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      tags:
+        - channel
+      requestBody:
+        $ref: '#/components/requestBodies/NewChannel'
+      description: ''
   '/me/channels/{channelID}':
     parameters:
       - $ref: '#/components/parameters/channelId'
@@ -474,6 +515,26 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       description: ''
+      tags:
+        - channel
+  '/users/{userID}/channels/{channelID}':
+    parameters:
+      - $ref: '#/components/parameters/channelId'
+      - $ref: '#/components/parameters/userId'
+    put:
+      summary: Update the status of user participating in the channel
+      operationId: put-channels-channelID-users-userID
+      responses:
+        '200':
+          $ref: '#/components/responses/ChannelUser'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      requestBody:
+        $ref: '#/components/requestBodies/ChannelUserPermission'
       tags:
         - channel
 components:
@@ -673,6 +734,32 @@ components:
             $ref: '#/components/schemas/Match'
         has_next:
           type: boolean
+    Role:
+      title: Role
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        name:
+          type: string
+          minLength: 1
+    ChannelUserPermission:
+      title: ChannelUserPermission
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/Role'
+        is_ban:
+          type: boolean
+    ChannelUser:
+      title: ChannelUser
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        role:
+          $ref: '#/components/schemas/Role'
     ChannelPassword:
       title: ChannelPassword
       type: object
@@ -720,6 +807,20 @@ components:
               value:
                 name: channel-name
                 password: channel-password
+    ChannelUserPermission:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChannelUserPermission'
+          examples:
+            example:
+              value:
+                channel_id: 1
+                user_id: 1
+                role:
+                  id: 1
+                  name: owner
+                is_ban: false
     ChannelPassword:
       content:
         application/json:
@@ -929,6 +1030,68 @@ components:
                 role: owner
                 created_at: '2019-08-24T14:15:22Z'
                 updated_at: '2019-08-24T14:15:22Z'
+    ChannelUserList:
+      description: ChannelUser list response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ChannelUser'
+          examples:
+            example:
+              value:
+                - user:
+                    id: 1
+                    username: username
+                    display_name: display_name
+                    profile_image: 'http://example.com'
+                    status: online
+                    status_message: status_message
+                    followers: 0
+                    following: 0
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+                    achievements:
+                      - id: 1
+                        name: achievement name
+                        description: achievement description
+                        image: 'http://example.com'
+                        created_at: '2019-08-24T14:15:22Z'
+                        updated_at: '2019-08-24T14:15:22Z'
+                  role:
+                    id: 2
+                    name: administrator
+    ChannelUser:
+      description: ChannelUser response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChannelUser'
+          examples:
+            example:
+              value:
+                user:
+                  id: 1
+                  username: username
+                  display_name: display_name
+                  profile_image: 'http://example.com'
+                  status: online
+                  status_message: status_message
+                  followers: 0
+                  following: 0
+                  created_at: '2019-08-24T14:15:22Z'
+                  updated_at: '2019-08-24T14:15:22Z'
+                  achievements:
+                    - id: 1
+                      name: achievement name
+                      description: achievement description
+                      image: 'http://example.com'
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                role:
+                  id: 2
+                  name: administrator
   parameters:
     userId:
       name: userID

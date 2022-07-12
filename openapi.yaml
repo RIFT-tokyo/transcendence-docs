@@ -443,11 +443,7 @@ paths:
     parameters: []
   '/channels/{channelID}/users':
     parameters:
-      - schema:
-          type: integer
-        name: channelID
-        in: path
-        required: true
+      - $ref: '#/components/parameters/channelId'
     get:
       summary: List users participating in a channel
       tags:
@@ -651,11 +647,7 @@ components:
         is_protected:
           type: boolean
         role:
-          type: string
-          enum:
-            - owner
-            - administrator
-          nullable: true
+          $ref: '#/components/schemas/Role'
         created_at:
           type: string
           format: date-time
@@ -735,15 +727,12 @@ components:
         has_next:
           type: boolean
     Role:
+      type: string
       title: Role
-      type: object
-      properties:
-        id:
-          type: integer
-          minimum: 1
-        name:
-          type: string
-          minLength: 1
+      enum:
+        - owner
+        - administrator
+      nullable: true
     ChannelUserPermission:
       title: ChannelUserPermission
       type: object
@@ -817,9 +806,7 @@ components:
               value:
                 channel_id: 1
                 user_id: 1
-                role:
-                  id: 1
-                  name: owner
+                role: owner
                 is_ban: false
     ChannelPassword:
       content:
@@ -1059,9 +1046,7 @@ components:
                         image: 'http://example.com'
                         created_at: '2019-08-24T14:15:22Z'
                         updated_at: '2019-08-24T14:15:22Z'
-                  role:
-                    id: 2
-                    name: administrator
+                  role: administrator
     ChannelUser:
       description: ChannelUser response
       content:
@@ -1089,9 +1074,7 @@ components:
                       image: 'http://example.com'
                       created_at: '2019-08-24T14:15:22Z'
                       updated_at: '2019-08-24T14:15:22Z'
-                role:
-                  id: 2
-                  name: administrator
+                role: administrator
   parameters:
     userId:
       name: userID

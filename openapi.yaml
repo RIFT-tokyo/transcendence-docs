@@ -458,6 +458,22 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-channels-users-userID
+    put:
+      summary: Update the status of users participating in the channel
+      operationId: put-channels-channelID-users
+      responses:
+        '200':
+          $ref: '#/components/responses/ChannelUserList'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateChannelUser'
+      tags:
+        - channel
   '/channels/{channelID}':
     parameters:
       - $ref: '#/components/parameters/channelId'
@@ -511,26 +527,6 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       description: ''
-      tags:
-        - channel
-  '/users/{userID}/channels/{channelID}':
-    parameters:
-      - $ref: '#/components/parameters/channelId'
-      - $ref: '#/components/parameters/userId'
-    put:
-      summary: Update the status of user participating in the channel
-      operationId: put-channels-channelID-users-userID
-      responses:
-        '200':
-          $ref: '#/components/responses/ChannelUser'
-        '400':
-          $ref: '#/components/responses/400-Bad-Request'
-        '401':
-          $ref: '#/components/responses/401-Unauthorized'
-        '500':
-          $ref: '#/components/responses/500-Internal-Server-Error'
-      requestBody:
-        $ref: '#/components/requestBodies/ChannelUserPermission'
       tags:
         - channel
 components:
@@ -755,6 +751,19 @@ components:
       properties:
         password:
           type: string
+    UpdateChannelUser:
+      title: UpdateChannelUser
+      x-stoplight:
+        id: lpwe8jrkr8ja6
+      type: object
+      properties:
+        userIds:
+          type: array
+          items:
+            type: number
+            minimum: 1
+        permission:
+          $ref: '#/components/schemas/ChannelUserPermission'
   requestBodies:
     User:
       content:
@@ -817,6 +826,20 @@ components:
             example:
               value:
                 password: channel password
+    UpdateChannelUser:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateChannelUser'
+          examples:
+            example:
+              value:
+                userIds:
+                  - 1
+                  - 2
+                  - 42
+                permission:
+                  role: administrator
   responses:
     User:
       description: User response

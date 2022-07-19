@@ -504,6 +504,58 @@ paths:
                     type: string
       operationId: get-auth-2fa-qrcode
       description: return 2 factor's qrcode
+  /me/channels:
+    get:
+      summary: List channels in which the authenticated user participates
+      tags:
+        - channel
+      responses:
+        '200':
+          $ref: '#/components/responses/ChannelList'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      operationId: get-channels-me
+      description: ''
+    parameters: []
+  '/me/channels/{channelID}':
+    parameters:
+      - $ref: '#/components/parameters/channelId'
+    put:
+      summary: Join channel
+      operationId: put-me-channels-channelId
+      responses:
+        '200':
+          $ref: '#/components/responses/Channel'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      tags:
+        - channel
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/ChannelPassword'
+    delete:
+      summary: Leave channel
+      operationId: delete-me-channels-channelId
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      description: ''
+      tags:
+        - channel
 components:
   schemas:
     User:
@@ -619,6 +671,12 @@ components:
           minLength: 1
         is_protected:
           type: boolean
+        role:
+          type: string
+          enum:
+            - owner
+            - administrator
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -697,6 +755,12 @@ components:
             $ref: '#/components/schemas/Match'
         has_next:
           type: boolean
+    ChannelPassword:
+      title: ChannelPassword
+      type: object
+      properties:
+        password:
+          type: string
   requestBodies:
     User:
       content:
@@ -738,6 +802,15 @@ components:
               value:
                 name: channel-name
                 password: channel-password
+    ChannelPassword:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChannelPassword'
+          examples:
+            example:
+              value:
+                password: channel password
   responses:
     User:
       description: User response
@@ -907,17 +980,20 @@ components:
               value:
                 - id: 1
                   name: general
-                  slug: general-419056ab-eec3-4d88-a9f9-2cb69f806816
+                  is_protected: false
+                  role: owner
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
                 - id: 2
                   name: random
-                  slug: random-1b754972-b377-4fd4-a88a-439821e12d4d
+                  is_protected: false
+                  role: administrator
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
-                - id: 3
-                  name: rules
-                  slug: rules-f2d774a6-066f-4d5c-b7c1-124fb7186042
+                - id: 2
+                  name: secret
+                  is_protected: true
+                  role: null
                   created_at: '2019-08-24T14:15:22Z'
                   updated_at: '2019-08-24T14:15:22Z'
     Channel:
@@ -931,7 +1007,8 @@ components:
               value:
                 id: 1
                 name: general
-                slug: general-419056ab-eec3-4d88-a9f9-2cb69f806816
+                is_protected: false
+                role: owner
                 created_at: '2019-08-24T14:15:22Z'
                 updated_at: '2019-08-24T14:15:22Z'
   parameters:
@@ -970,6 +1047,12 @@ components:
       schema:
         type: integer
         minimum: 1
+    channelId:
+      name: channelID
+      in: path
+      required: true
+      schema:
+        type: integer
   examples: {}
   securitySchemes:
     sessionAuth:

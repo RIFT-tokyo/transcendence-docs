@@ -424,6 +424,86 @@ paths:
         - channel
       requestBody:
         $ref: '#/components/requestBodies/NewChannel'
+  /auth/2fa/authenticate:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-auth-2fa-authenticate
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authcode:
+                  type: string
+        description: one time password
+      tags:
+        - auth
+      description: 'authenticate 2 factor, this is used just after user login with 2 factor activated.'
+  /auth/2fa/activate:
+    post:
+      summary: ''
+      operationId: post-auth-2fa-activate
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authcode:
+                  type: string
+        description: authcode & password are needed to activate 2-factor-auth
+      tags:
+        - auth
+      description: activate 2 factor from security setting
+      parameters: []
+  /auth/2fa/deactivate:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - auth
+      operationId: get-auth-2fa-deactivate
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      description: deactivate 2 factor from security setting
+    parameters: []
+  /auth/2fa/qrcode:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qrcode:
+                    type: string
+      operationId: get-auth-2fa-qrcode
+      description: return 2 factor's qrcode
   /me/channels:
     get:
       summary: List channels in which the authenticated user participates
@@ -519,6 +599,8 @@ components:
           uniqueItems: false
           items:
             $ref: '#/components/schemas/Achievement'
+        is_two_fa_enabled:
+          type: boolean
     Login:
       title: Login
       type: object

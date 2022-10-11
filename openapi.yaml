@@ -458,6 +458,7 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-channels-users-userID
+      description: ''
     put:
       summary: Update the status of users participating in the channel
       operationId: put-channels-channelID-users
@@ -471,7 +472,7 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       requestBody:
-        $ref: '#/components/requestBodies/UpdateChannelUser'
+        $ref: '#/components/requestBodies/ChannelUserList'
       tags:
         - channel
   '/channels/{channelID}':
@@ -745,6 +746,8 @@ components:
           $ref: '#/components/schemas/User'
         role:
           $ref: '#/components/schemas/Role'
+        is_ban:
+          type: boolean
     ChannelPassword:
       title: ChannelPassword
       type: object
@@ -760,7 +763,7 @@ components:
         userIds:
           type: array
           items:
-            type: number
+            type: integer
             minimum: 1
         permission:
           $ref: '#/components/schemas/ChannelUserPermission'
@@ -826,20 +829,29 @@ components:
             example:
               value:
                 password: channel password
-    UpdateChannelUser:
+    UpdateChannelUsers:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UpdateChannelUser'
+            type: array
+            items:
+              $ref: '#/components/schemas/UpdateChannelUser'
           examples:
             example:
               value:
-                userIds:
-                  - 1
-                  - 2
-                  - 42
-                permission:
-                  role: administrator
+                - userIds:
+                    - 1
+                    - 2
+                    - 42
+                  permission:
+                    role: administrator
+    ChannelUserList:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ChannelUser'
   responses:
     User:
       description: User response

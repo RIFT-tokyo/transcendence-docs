@@ -521,6 +521,60 @@ paths:
       operationId: get-channels-me
       description: ''
     parameters: []
+  '/channels/{channelID}/users':
+    parameters:
+      - $ref: '#/components/parameters/channelId'
+    get:
+      summary: List users participating in a channel
+      tags:
+        - channel
+      responses:
+        '200':
+          $ref: '#/components/responses/ChannelUserList'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      operationId: get-channels-users-userID
+      description: ''
+    put:
+      summary: Update the status of users participating in the channel
+      operationId: put-channels-channelID-users
+      responses:
+        '200':
+          $ref: '#/components/responses/ChannelUserList'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      requestBody:
+        $ref: '#/components/requestBodies/ChannelUserList'
+      tags:
+        - channel
+  '/channels/{channelID}':
+    parameters:
+      - $ref: '#/components/parameters/channelId'
+    put:
+      summary: Update a channel
+      operationId: put-channels-channelID
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      tags:
+        - channel
+      requestBody:
+        $ref: '#/components/requestBodies/NewChannel'
+      description: ''
   '/me/channels/{channelID}':
     parameters:
       - $ref: '#/components/parameters/channelId'
@@ -672,11 +726,7 @@ components:
         is_protected:
           type: boolean
         role:
-          type: string
-          enum:
-            - owner
-            - administrator
-          nullable: true
+          $ref: '#/components/schemas/Role'
         created_at:
           type: string
           format: date-time
@@ -755,12 +805,50 @@ components:
             $ref: '#/components/schemas/Match'
         has_next:
           type: boolean
+    Role:
+      type: string
+      title: Role
+      enum:
+        - owner
+        - administrator
+      nullable: true
+    ChannelUserPermission:
+      title: ChannelUserPermission
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/Role'
+        is_ban:
+          type: boolean
+    ChannelUser:
+      title: ChannelUser
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        role:
+          $ref: '#/components/schemas/Role'
+        is_ban:
+          type: boolean
     ChannelPassword:
       title: ChannelPassword
       type: object
       properties:
         password:
           type: string
+    UpdateChannelUser:
+      title: UpdateChannelUser
+      x-stoplight:
+        id: lpwe8jrkr8ja6
+      type: object
+      properties:
+        userIds:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+        permission:
+          $ref: '#/components/schemas/ChannelUserPermission'
   requestBodies:
     User:
       content:
@@ -802,6 +890,18 @@ components:
               value:
                 name: channel-name
                 password: channel-password
+    ChannelUserPermission:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChannelUserPermission'
+          examples:
+            example:
+              value:
+                channel_id: 1
+                user_id: 1
+                role: owner
+                is_ban: false
     ChannelPassword:
       content:
         application/json:
@@ -811,6 +911,29 @@ components:
             example:
               value:
                 password: channel password
+    UpdateChannelUsers:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/UpdateChannelUser'
+          examples:
+            example:
+              value:
+                - userIds:
+                    - 1
+                    - 2
+                    - 42
+                  permission:
+                    role: administrator
+    ChannelUserList:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ChannelUser'
   responses:
     User:
       description: User response
@@ -1011,6 +1134,64 @@ components:
                 role: owner
                 created_at: '2019-08-24T14:15:22Z'
                 updated_at: '2019-08-24T14:15:22Z'
+    ChannelUserList:
+      description: ChannelUser list response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ChannelUser'
+          examples:
+            example:
+              value:
+                - user:
+                    id: 1
+                    username: username
+                    display_name: display_name
+                    profile_image: 'http://example.com'
+                    status: online
+                    status_message: status_message
+                    followers: 0
+                    following: 0
+                    created_at: '2019-08-24T14:15:22Z'
+                    updated_at: '2019-08-24T14:15:22Z'
+                    achievements:
+                      - id: 1
+                        name: achievement name
+                        description: achievement description
+                        image: 'http://example.com'
+                        created_at: '2019-08-24T14:15:22Z'
+                        updated_at: '2019-08-24T14:15:22Z'
+                  role: administrator
+    ChannelUser:
+      description: ChannelUser response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChannelUser'
+          examples:
+            example:
+              value:
+                user:
+                  id: 1
+                  username: username
+                  display_name: display_name
+                  profile_image: 'http://example.com'
+                  status: online
+                  status_message: status_message
+                  followers: 0
+                  following: 0
+                  created_at: '2019-08-24T14:15:22Z'
+                  updated_at: '2019-08-24T14:15:22Z'
+                  achievements:
+                    - id: 1
+                      name: achievement name
+                      description: achievement description
+                      image: 'http://example.com'
+                      created_at: '2019-08-24T14:15:22Z'
+                      updated_at: '2019-08-24T14:15:22Z'
+                role: administrator
   parameters:
     userId:
       name: userID

@@ -147,6 +147,112 @@ paths:
       tags:
         - user
       parameters: []
+  /me/channels:
+    get:
+      summary: List channels in which the authenticated user participates
+      tags:
+        - channel
+      responses:
+        '200':
+          $ref: '#/components/responses/ChannelList'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      operationId: get-channels-me
+      description: ''
+    parameters: []
+  /me/pms:
+    get:
+      summary: List channels in which the authenticated user participates
+      responses:
+        '200':
+          $ref: '#/components/responses/PMList'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      operationId: get-me-pms
+      description: ''
+      tags:
+        - pm
+    parameters: []
+  '/me/channels/{channelID}':
+    parameters:
+      - $ref: '#/components/parameters/channelId'
+    put:
+      summary: Join channel
+      operationId: put-me-channels-channelId
+      responses:
+        '200':
+          $ref: '#/components/responses/Channel'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      tags:
+        - channel
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/ChannelPassword'
+    delete:
+      summary: Leave channel
+      operationId: delete-me-channels-channelId
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      description: ''
+      tags:
+        - channel
+  '/me/pms/{userID}':
+    parameters:
+      - name: userID
+        in: path
+        required: true
+        schema:
+          type: integer
+    put:
+      summary: Create PM
+      operationId: put-me-pms-userid
+      responses:
+        '200':
+          $ref: '#/components/responses/User'
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      description: ''
+      tags:
+        - pm
+    delete:
+      summary: Leave channel
+      operationId: delete-me-pms-userId
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400-Bad-Request'
+        '401':
+          $ref: '#/components/responses/401-Unauthorized'
+        '500':
+          $ref: '#/components/responses/500-Internal-Server-Error'
+      description: ''
+      tags:
+        - pm
   /users:
     get:
       summary: List users
@@ -504,23 +610,6 @@ paths:
                     type: string
       operationId: get-auth-2fa-qrcode
       description: return 2 factor's qrcode
-  /me/channels:
-    get:
-      summary: List channels in which the authenticated user participates
-      tags:
-        - channel
-      responses:
-        '200':
-          $ref: '#/components/responses/ChannelList'
-        '400':
-          $ref: '#/components/responses/400-Bad-Request'
-        '401':
-          $ref: '#/components/responses/401-Unauthorized'
-        '500':
-          $ref: '#/components/responses/500-Internal-Server-Error'
-      operationId: get-channels-me
-      description: ''
-    parameters: []
   '/channels/{channelID}/users':
     parameters:
       - $ref: '#/components/parameters/channelId'
@@ -575,41 +664,6 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/NewChannel'
       description: ''
-  '/me/channels/{channelID}':
-    parameters:
-      - $ref: '#/components/parameters/channelId'
-    put:
-      summary: Join channel
-      operationId: put-me-channels-channelId
-      responses:
-        '200':
-          $ref: '#/components/responses/Channel'
-        '400':
-          $ref: '#/components/responses/400-Bad-Request'
-        '401':
-          $ref: '#/components/responses/401-Unauthorized'
-        '500':
-          $ref: '#/components/responses/500-Internal-Server-Error'
-      tags:
-        - channel
-      description: ''
-      requestBody:
-        $ref: '#/components/requestBodies/ChannelPassword'
-    delete:
-      summary: Leave channel
-      operationId: delete-me-channels-channelId
-      responses:
-        '204':
-          description: No Content
-        '400':
-          $ref: '#/components/responses/400-Bad-Request'
-        '401':
-          $ref: '#/components/responses/401-Unauthorized'
-        '500':
-          $ref: '#/components/responses/500-Internal-Server-Error'
-      description: ''
-      tags:
-        - channel
 components:
   schemas:
     User:
@@ -1192,6 +1246,14 @@ components:
                       created_at: '2019-08-24T14:15:22Z'
                       updated_at: '2019-08-24T14:15:22Z'
                 role: administrator
+    PMList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
   parameters:
     userId:
       name: userID

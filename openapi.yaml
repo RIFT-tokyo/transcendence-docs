@@ -443,7 +443,7 @@ paths:
       summary: List the people a user blocks
       responses:
         '200':
-          $ref: '#/components/responses/UserList'
+          $ref: '#/components/responses/BlockList'
         '401':
           $ref: '#/components/responses/401-Unauthorized'
         '404':
@@ -451,9 +451,7 @@ paths:
         '500':
           $ref: '#/components/responses/500-Internal-Server-Error'
       operationId: get-users-userID-block
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
+      parameters: []
       description: Lists the people who the specified user blocks.
       tags:
         - block
@@ -1336,6 +1334,14 @@ components:
                       updated_at: '2019-08-24T14:15:22Z'
                 role: administrator
     PMList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+    BlockList:
       description: Example response
       content:
         application/json:
